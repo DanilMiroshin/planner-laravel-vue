@@ -15,7 +15,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id='app' class="h-screen overflow-hidden flex items-center justify-center "  style="background: #edf2f7;">
+    <div id='app'>
         <tasks-page></tasks-page>
     </div>
 <script src="{{ mix('js/app.js')}}"></script>

@@ -1,4 +1,5 @@
 <template>
+<div class="h-screen overflow-hidden flex items-center justify-center "  style="background: #edf2f7;">
 <div class="font-sans antialiased h-screen flex w-full">
     <!-- Sidebar -->
     <div class="bg-charcoal text-purple-lighter flex-none w-64 pb-6 hidden md:block">
@@ -170,6 +171,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </template>
 <script>
