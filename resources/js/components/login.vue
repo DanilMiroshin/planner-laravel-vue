@@ -7,7 +7,12 @@
             <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
                 <p class="text-center text-3xl">Вход</p>
                 <form class="flex flex-col pt-3 md:pt-8"">
-        
+
+                    <!-- Error message -->
+                    <div v-if="errors && error_message" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <span class="block sm:inline">Указанные имя пользователя или пароль не верны.</span>
+                    </div>
+
                     <div class="flex flex-col pt-4">
                         <label for="email" class="text-lg">Почта</label>
                         <input v-model='email' type="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
@@ -52,17 +57,20 @@
             return {
                 errors: {},
                 email: '',
-                password: ''
+                password: '',
+                error_message: false
             } 
         },
 
         methods : {
             login () {
-                    axios.post('api/v1/login', {
+                    axios.post('api/v1/auth/login', {
                         email: this.email,
                         password: this.password
                     })
                     .then(response => {
+                        this.errors = '';
+                        this.error_message = false;
                         window.location.href =  '/';                                         
                     })
                     .catch(error => {
@@ -70,6 +78,11 @@
                             this.errors = error.response.data.errors;
                             console.log(this.errors);
                         }
+
+                        if (error.response.status == 401) {
+                            this.error_message = true;
+                        }
+
                         console.log(error);
                     });
             }

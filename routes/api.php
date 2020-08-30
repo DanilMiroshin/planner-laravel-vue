@@ -13,10 +13,13 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
+    Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
+        Route::post('login', 'LogInController')->name('login');
+        Route::post('logout', 'LogOutController')->name('logout');
+        Route::get('me', 'MeController')->name('me');
+    });
     Route::resource('tasks', 'TasksController', ['except' => ['create', 'edit']]);
 });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
