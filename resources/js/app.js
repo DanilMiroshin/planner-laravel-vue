@@ -2,6 +2,7 @@ require('./bootstrap');
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from './store/index.js'
 
 Vue.use(VueRouter)
 
@@ -30,4 +31,5 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router,
+    store: store
 });

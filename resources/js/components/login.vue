@@ -15,15 +15,15 @@
 
                     <div class="flex flex-col pt-4">
                         <label for="email" class="text-lg">Почта</label>
-                        <input v-model='email' type="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
+                        <input v-model='user.email' type="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
-                    <p class="text-red text-xs italic" v-if="errors && errors.email">{{ errors.email[0] }}</p>
+                    <!-- <p class="text-red text-xs italic" v-if="errors && errors.email">{{ errors.email[0] }}</p> -->
                    
                     <div class="flex flex-col pt-4">
                         <label for="password" class="text-lg">Пароль</label>
-                        <input v-model='password' type="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
+                        <input v-model='user.password' type="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
-                    <p class="text-red text-xs italic" v-if="errors && errors.password">{{ errors.password[0] }}</p>
+                    <!-- <p class="text-red text-xs italic" v-if="errors && errors.password">{{ errors.password[0] }}</p> -->
 
                     <div class="flex flex-row justify-between pt-4">
                         <label class="cursor-pointer block text-gray-500 font-bold">
@@ -35,7 +35,7 @@
                         <a href="#" class="text-hookers-green underline font-semibold hover:text-dark-slate-gray">Забыли пароль?</a>
                     </div>
 
-                    <input v-on:click="login" type="button" value="Вход" class="bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8">
+                    <input v-on:click="submit" type="button" value="Вход" class="bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8">
                 </form>
                 <div class="text-center pt-12 pb-12">
                     <p>Ещё нет аккаунта? 
@@ -52,19 +52,28 @@
 </div>
 </template>
 <script>
+    import { mapActions } from 'vuex'
+
     export default {
         data : function (){
             return {
                 errors: {},
-                email: '',
-                password: '',
+                user: {
+                    email: '',
+                    password: '',
+                },
                 error_message: false
             } 
         },
 
         methods : {
-            login () {
-                    axios.post('api/v1/auth/login', {
+            ...mapActions({
+                login: 'auth/login'
+            }),
+
+            submit () {
+                this.login(this.user);
+/*                    axios.post('api/v1/auth/login', {
                         email: this.email,
                         password: this.password
                     })
@@ -84,7 +93,7 @@
                         }
 
                         console.log(error);
-                    });
+                    });*/
             }
         }
     }
