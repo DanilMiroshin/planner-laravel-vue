@@ -8,7 +8,7 @@
                 <h1 class="font-semibold text-xl leading-tight mb-1 truncate">Planner</h1>
                 <div class="flex items-center mb-6">
                     <span class="bg-green rounded-full block w-2 h-2 mr-2"></span>
-                    <span class="text-white opacity-50 text-sm">Adam Wathan</span>
+                    <span class="text-white opacity-50 text-sm">{{ user.name }}</span>
                 </div>
             </div>
         </div>
@@ -175,7 +175,16 @@
 </div>
 </template>
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
+        computed: {
+            ...mapGetters ({
+                authenticated: 'auth/authenticated',
+                user: 'auth/user',
+            })
+        },
+
         data : function() {
             return {
                 tasks: [],

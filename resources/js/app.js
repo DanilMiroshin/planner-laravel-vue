@@ -15,6 +15,7 @@ const router = new VueRouter({
     routes: [
         { 
             path:'/',
+            name: 'tasks',
             component:Tasks
         },
         { 

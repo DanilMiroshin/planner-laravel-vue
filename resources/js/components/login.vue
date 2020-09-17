@@ -72,28 +72,17 @@
             }),
 
             submit () {
-                this.login(this.user);
-/*                    axios.post('api/v1/auth/login', {
-                        email: this.email,
-                        password: this.password
+                this.login(this.user).then(() => {
+                    this.$router.replace({
+                        name: 'tasks'
                     })
-                    .then(response => {
-                        this.errors = '';
-                        this.error_message = false;
-                        window.location.href =  '/';                                         
-                    })
-                    .catch(error => {
-                        if (error.response.status == 422) {
-                            this.errors = error.response.data.errors;
-                            console.log(this.errors);
-                        }
-
-                        if (error.response.status == 401) {
-                            this.error_message = true;
-                        }
-
-                        console.log(error);
-                    });*/
+                }).catch(() => {
+                    /*
+                    TO DO
+                    validation
+                    */
+                    console.log('failed');
+                })
             }
         }
     }
