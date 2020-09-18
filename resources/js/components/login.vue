@@ -25,7 +25,7 @@
                     </div>
                     <!-- <p class="text-red text-xs italic" v-if="errors && errors.password">{{ errors.password[0] }}</p> -->
 
-                    <div class="flex flex-row justify-between pt-4">
+<!--                     <div class="flex flex-row justify-between pt-4">
                         <label class="cursor-pointer block text-gray-500 font-bold">
                             <input class="mr-2 leading-tight" type="checkbox">
                             <span class="pb-2 text-sm">
@@ -33,13 +33,13 @@
                             </span>
                         </label>
                         <a href="#" class="text-hookers-green underline font-semibold hover:text-dark-slate-gray">Забыли пароль?</a>
-                    </div>
+                    </div> -->
 
                     <input v-on:click="submit" type="button" value="Вход" class="bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8">
                 </form>
                 <div class="text-center pt-12 pb-12">
-                    <p>Ещё нет аккаунта? 
-                        <a href="#" class="text-hookers-green underline font-semibold hover:text-dark-slate-gray">Присоединиться</a>
+                    <p>Ещё нет аккаунта?
+                        <router-link to="registration" class="text-hookers-green underline font-semibold hover:text-dark-slate-gray">Присоединиться</router-link> 
                     </p>
                 </div>
             </div>

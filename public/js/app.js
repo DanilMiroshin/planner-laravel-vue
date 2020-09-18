@@ -20862,8 +20862,6 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _vm._m(0),
-              _vm._v(" "),
               _c("input", {
                 staticClass:
                   "bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8",
@@ -20872,68 +20870,33 @@ var render = function() {
               })
             ]),
             _vm._v(" "),
-            _vm._m(1)
+            _c("div", { staticClass: "text-center pt-12 pb-12" }, [
+              _c(
+                "p",
+                [
+                  _vm._v("Ещё нет аккаунта?\n                        "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass:
+                        "text-hookers-green underline font-semibold hover:text-dark-slate-gray",
+                      attrs: { to: "registration" }
+                    },
+                    [_vm._v("Присоединиться")]
+                  )
+                ],
+                1
+              )
+            ])
           ]
         )
       ]),
       _vm._v(" "),
-      _vm._m(2)
+      _vm._m(0)
     ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex flex-row justify-between pt-4" }, [
-      _c(
-        "label",
-        { staticClass: "cursor-pointer block text-gray-500 font-bold" },
-        [
-          _c("input", {
-            staticClass: "mr-2 leading-tight",
-            attrs: { type: "checkbox" }
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "pb-2 text-sm" }, [
-            _vm._v(
-              "\n                                Запомнить меня\n                            "
-            )
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass:
-            "text-hookers-green underline font-semibold hover:text-dark-slate-gray",
-          attrs: { href: "#" }
-        },
-        [_vm._v("Забыли пароль?")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center pt-12 pb-12" }, [
-      _c("p", [
-        _vm._v("Ещё нет аккаунта? \n                        "),
-        _c(
-          "a",
-          {
-            staticClass:
-              "text-hookers-green underline font-semibold hover:text-dark-slate-gray",
-            attrs: { href: "#" }
-          },
-          [_vm._v("Присоединиться")]
-        )
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -20967,120 +20930,122 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "bg-white font-family-karla h-screen" }, [
+    _c("div", { staticClass: "w-full flex flex-wrap" }, [
+      _c("div", { staticClass: "w-full md:w-1/2 flex flex-col" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32"
+          },
+          [
+            _c("p", { staticClass: "text-center text-3xl" }, [
+              _vm._v("Регистрация")
+            ]),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-center pt-12 pb-12" }, [
+              _c(
+                "p",
+                [
+                  _vm._v("Уже есть аккаунт?\n                        "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass:
+                        "text-hookers-green underline font-semibold hover:text-dark-slate-gray",
+                      attrs: { to: "login" }
+                    },
+                    [_vm._v("Войти")]
+                  )
+                ],
+                1
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._m(1)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bg-white font-family-karla h-screen" }, [
-      _c("div", { staticClass: "w-full flex flex-wrap" }, [
-        _c("div", { staticClass: "w-full md:w-1/2 flex flex-col" }, [
-          _c(
-            "div",
-            {
-              staticClass:
-                "flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32"
-            },
-            [
-              _c("p", { staticClass: "text-center text-3xl" }, [
-                _vm._v("Регистрация")
-              ]),
-              _vm._v(" "),
-              _c("form", { staticClass: "flex flex-col pt-3 md:pt-8" }, [
-                _c("div", { staticClass: "flex flex-col pt-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "text-lg", attrs: { for: "email" } },
-                    [_vm._v("Почта")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass:
-                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                    attrs: { type: "email", name: "email", required: "" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "flex flex-col pt-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "text-lg", attrs: { for: "name" } },
-                    [_vm._v("Имя")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass:
-                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                    attrs: { type: "text", name: "name", required: "" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "flex flex-col pt-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "text-lg", attrs: { for: "password" } },
-                    [_vm._v("Пароль")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass:
-                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                    attrs: { type: "password", name: "password", required: "" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "flex flex-col pt-4" }, [
-                  _c(
-                    "label",
-                    { staticClass: "text-lg", attrs: { for: "password" } },
-                    [_vm._v("Повторите пароль")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass:
-                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                    attrs: {
-                      type: "password",
-                      name: "password_confirmation",
-                      required: ""
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass:
-                    "bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8",
-                  attrs: { type: "submit", value: "Присоединиться" }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "text-center pt-12 pb-12" }, [
-                _c("p", [
-                  _vm._v("Уже есть аккаунт? \n                        "),
-                  _c(
-                    "a",
-                    {
-                      staticClass:
-                        "text-hookers-green underline font-semibold hover:text-dark-slate-gray",
-                      attrs: { href: "#" }
-                    },
-                    [_vm._v("Войти")]
-                  )
-                ])
-              ])
-            ]
-          )
+    return _c("form", { staticClass: "flex flex-col pt-3 md:pt-8" }, [
+      _c("div", { staticClass: "flex flex-col pt-4" }, [
+        _c("label", { staticClass: "text-lg", attrs: { for: "email" } }, [
+          _vm._v("Почта")
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "w-1/2 shadow-2xl" }, [
-          _c("img", {
-            staticClass: "object-cover w-full h-screen hidden md:block",
-            attrs: { src: "/imgs/registration.svg" }
-          })
-        ])
-      ])
+        _c("input", {
+          staticClass:
+            "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: { type: "email", name: "email", required: "" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-col pt-4" }, [
+        _c("label", { staticClass: "text-lg", attrs: { for: "name" } }, [
+          _vm._v("Имя")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass:
+            "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: { type: "text", name: "name", required: "" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-col pt-4" }, [
+        _c("label", { staticClass: "text-lg", attrs: { for: "password" } }, [
+          _vm._v("Пароль")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass:
+            "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: { type: "password", name: "password", required: "" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-col pt-4" }, [
+        _c("label", { staticClass: "text-lg", attrs: { for: "password" } }, [
+          _vm._v("Повторите пароль")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass:
+            "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: {
+            type: "password",
+            name: "password_confirmation",
+            required: ""
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass:
+          "bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8",
+        attrs: { type: "submit", value: "Присоединиться" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/2 shadow-2xl" }, [
+      _c("img", {
+        staticClass: "object-cover w-full h-screen hidden md:block",
+        attrs: { src: "/imgs/registration.svg" }
+      })
     ])
   }
 ]
@@ -38312,19 +38277,48 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: [{
     path: '/',
     name: 'tasks',
-    component: _components_task_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    component: _components_task_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (!_store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].getters['auth/authenticated']) {
+        return next({
+          name: 'login'
+        });
+      }
+    }
   }, {
     path: '/login',
-    component: _components_login_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    name: 'login',
+    component: _components_login_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (_store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].getters['auth/authenticated'] !== null) {
+        return next({
+          name: 'tasks'
+        });
+      } else {
+        next();
+      }
+    }
   }, {
     path: '/registration',
-    component: _components_registration_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    name: 'registration',
+    component: _components_registration_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (_store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].getters['auth/authenticated'] !== null) {
+        return next({
+          name: 'tasks'
+        });
+      } else {
+        next();
+      }
+    }
   }]
 });
-var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-  el: '#app',
-  router: router,
-  store: _store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"]
+_store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].dispatch('auth/attempt', localStorage.getItem('token')).then(function () {
+  var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
+    el: '#app',
+    router: router,
+    store: _store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"]
+  });
 });
 
 /***/ }),
@@ -38650,39 +38644,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     attempt: function attempt(_ref2, token) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var commit, response;
+        var commit, state, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                commit = _ref2.commit;
-                commit('set_token', token);
-                _context2.prev = 2;
-                _context2.next = 5;
+                commit = _ref2.commit, state = _ref2.state;
+
+                if (token) {
+                  commit('set_token', token);
+                  localStorage.setItem('token', token);
+                }
+
+                if (state.token) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                return _context2.abrupt("return");
+
+              case 4:
+                _context2.prev = 4;
+                _context2.next = 7;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('api/v1/auth/me', {
                   headers: {
                     'Authorization': 'Bearer' + token
                   }
                 });
 
-              case 5:
+              case 7:
                 response = _context2.sent;
                 commit('set_user', response.data);
-                _context2.next = 13;
+                _context2.next = 16;
                 break;
 
-              case 9:
-                _context2.prev = 9;
-                _context2.t0 = _context2["catch"](2);
+              case 11:
+                _context2.prev = 11;
+                _context2.t0 = _context2["catch"](4);
+                localStorage.removeItem('token');
                 commit('set_token', null);
                 commit('set_user', null);
 
-              case 13:
+              case 16:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[2, 9]]);
+        }, _callee2, null, [[4, 11]]);
       }))();
     }
   }

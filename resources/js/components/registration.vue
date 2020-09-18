@@ -30,8 +30,8 @@
                     <input type="submit" value="Присоединиться" class="bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8">
                 </form>
                 <div class="text-center pt-12 pb-12">
-                    <p>Уже есть аккаунт? 
-                        <a href="#" class="text-hookers-green underline font-semibold hover:text-dark-slate-gray">Войти</a>
+                    <p>Уже есть аккаунт?
+                        <router-link class="text-hookers-green underline font-semibold hover:text-dark-slate-gray" to="login">Войти</router-link>
                     </p>
                 </div>
             </div>

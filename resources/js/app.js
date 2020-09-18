@@ -16,21 +16,52 @@ const router = new VueRouter({
         { 
             path:'/',
             name: 'tasks',
-            component:Tasks
+            component:Tasks,
+            beforeEnter: (to, from, next) => {
+                if (!store.getters['auth/authenticated']) {
+                    return next ({
+                        name: 'login'
+                    })
+                }
+            }
         },
         { 
             path:'/login',
-            component:Login
+            name: 'login',
+            component:Login,
+            beforeEnter: (to, from, next) => {
+                if (store.getters['auth/authenticated'] !== null) {
+                    return next ({
+                        name: 'tasks'
+                    })
+                } else {
+                    next()
+                }
+            }
         },
         { 
             path:'/registration',
-            component:Register
+            name: 'registration',
+            component:Register,
+            beforeEnter: (to, from, next) => {
+                if (store.getters['auth/authenticated'] !== null) {
+                    return next ({
+                        name: 'tasks'
+                    })
+                } else {
+                    next()
+                }
+            }        
         },
     ],
 });
 
-const app = new Vue({
-    el: '#app',
-    router,
-    store: store
-});
+store.dispatch('auth/attempt', localStorage.getItem('token')).then(() => {
+    const app = new Vue({
+        el: '#app',
+        router,
+        store: store
+    });
+})
+
+
