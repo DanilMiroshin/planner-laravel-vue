@@ -10,20 +10,20 @@
 
                     <!-- Error message -->
                     <div v-if="errors && error_message" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                        <span class="block sm:inline">Указанные имя пользователя или пароль не верны.</span>
+                        <span class="block sm:inline">Почта или пароль не верны.</span>
                     </div>
 
                     <div class="flex flex-col pt-4">
                         <label for="email" class="text-lg">Почта</label>
                         <input v-model='user.email' type="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
-                    <!-- <p class="text-red text-xs italic" v-if="errors && errors.email">{{ errors.email[0] }}</p> -->
+                    <p class="text-red text-xs italic" v-if="errors && errors.email">{{ errors.email[0] }}</p>
                    
                     <div class="flex flex-col pt-4">
                         <label for="password" class="text-lg">Пароль</label>
                         <input v-model='user.password' type="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
-                    <!-- <p class="text-red text-xs italic" v-if="errors && errors.password">{{ errors.password[0] }}</p> -->
+                    <p class="text-red text-xs italic" v-if="errors && errors.password">{{ errors.password[0] }}</p>
 
 <!--                     <div class="flex flex-row justify-between pt-4">
                         <label class="cursor-pointer block text-gray-500 font-bold">
@@ -76,12 +76,14 @@
                     this.$router.replace({
                         name: 'tasks'
                     })
-                }).catch(() => {
-                    /*
-                    TO DO
-                    validation
-                    */
-                    console.log('failed');
+                }).catch(error => {
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors;
+                    }
+
+                    if (error.response.status == 401) {
+                        this.error_message = true;
+                    }
                 })
             }
         }

@@ -19,6 +19,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
         Route::post('login', 'LogInController')->name('login');
         Route::post('logout', 'LogOutController')->name('logout');
         Route::get('me', 'MeController')->name('me');
+        Route::post('register', 'RegisterController')->name('register');
     });
     Route::resource('tasks', 'TasksController', ['except' => ['create', 'edit']]);
 });
