@@ -2284,7 +2284,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.loadTasks();
     this.overlay = false;
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    signoutAction: 'auth/signOut'
+  })), {}, {
+    signout: function signout() {
+      var _this = this;
+
+      this.signoutAction().then(function () {
+        _this.$router.replace({
+          name: 'login'
+        });
+      });
+    },
     hideModal: function hideModal() {
       this.modalShown = false;
       this.overlay = false;
@@ -2298,66 +2309,66 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.success = false;
     },
     createTask: function createTask() {
-      var _this = this;
+      var _this2 = this;
 
       axios.post('api/v1/tasks/', this.task).then(function (response) {
-        _this.loadTasks();
+        _this2.loadTasks();
 
-        _this.task = {};
-        _this.message = 'Задача добавлена';
-        _this.success = true;
-        _this.errors = {};
+        _this2.task = {};
+        _this2.message = 'Задача добавлена';
+        _this2.success = true;
+        _this2.errors = {};
       })["catch"](function (error) {
         if (error.response.status == 422) {
-          _this.errors = error.response.data.errors;
+          _this2.errors = error.response.data.errors;
         }
 
         console.log(error);
       });
     },
     loadTasks: function loadTasks() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('api/v1/tasks').then(function (response) {
-        _this2.tasks = response.data.data;
+        _this3.tasks = response.data.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     deleteTask: function deleteTask(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (confirm('Вы уверены?')) {
         axios["delete"]('api/v1/tasks/' + id).then(function (response) {
-          _this3.success = false;
+          _this4.success = false;
 
-          _this3.loadTasks();
+          _this4.loadTasks();
 
-          _this3.message = 'Задача удаленна';
-          _this3.success = true;
+          _this4.message = 'Задача удаленна';
+          _this4.success = true;
         })["catch"](function (error) {
           console.log(error);
         });
       }
     },
     editTask: function editTask() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.put('api/v1/tasks/' + this.selectedTask.id, {
         description: this.selectedTask.description
       }).then(function (response) {
-        _this4.loadTasks();
+        _this5.loadTasks();
 
-        _this4.hideModal();
+        _this5.hideModal();
 
-        _this4.selectedTask.task = {};
-        _this4.message = 'Задача изменена';
-        _this4.success = true;
+        _this5.selectedTask.task = {};
+        _this5.message = 'Задача изменена';
+        _this5.success = true;
       })["catch"](function (error) {
         console.log(error);
       });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -21159,7 +21170,7 @@ var render = function() {
                 },
                 [
                   _c("div", { staticClass: "opacity-75" }, [
-                    _vm._v("Adam Wathan")
+                    _vm._v(_vm._s(_vm.user.name))
                   ]),
                   _vm._v(" "),
                   _c("div", [
@@ -21187,7 +21198,16 @@ var render = function() {
               _vm._v(" "),
               _vm._m(1),
               _vm._v(" "),
-              _vm._m(2)
+              _c("div", { staticClass: "flex items-center mb-3 px-4" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "text-white opacity-75",
+                    on: { click: _vm.signout }
+                  },
+                  [_vm._v("Выход")]
+                )
+              ])
             ])
           ]
         ),
@@ -21198,7 +21218,43 @@ var render = function() {
             staticClass: "flex-1 flex flex-col bg-white w-full overflow-hidden"
           },
           [
-            _vm._m(3),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "border-b flex px-6  py-2 items-center justify-between"
+              },
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex flex-row py-2" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass:
+                        "text-grey-dark mb-1 text-sm truncate float-right hover:text-charcoal",
+                      attrs: { href: "#" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Настройки\n                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass:
+                        "text-grey-dark text-sm truncate pl-4 hover:text-charcoal",
+                      attrs: { href: "#" },
+                      on: { click: _vm.signout }
+                    },
+                    [_vm._v("\n                    Выход\n                ")]
+                  )
+                ])
+              ]
+            ),
             _vm._v(" "),
             _c(
               "div",
@@ -21698,47 +21754,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center mb-3 px-4" }, [
-      _c("a", { staticClass: "text-white opacity-75", attrs: { href: "#" } }, [
-        _vm._v("Выход")
+    return _c("div", [
+      _c("h3", { staticClass: "text-grey-darkest font-extrabold" }, [
+        _vm._v("\n                    #Сегодня\n                ")
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "border-b flex px-6  py-2 items-center justify-between" },
-      [
-        _c("div", [
-          _c("h3", { staticClass: "text-grey-darkest font-extrabold" }, [
-            _vm._v("\n                    #Сегодня\n                ")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "flex flex-row py-2" }, [
-          _c(
-            "a",
-            {
-              staticClass: "text-grey-dark mb-1 text-sm truncate float-right",
-              attrs: { href: "#" }
-            },
-            [_vm._v("\n                    Настройки\n                ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "text-grey-dark text-sm truncate pl-4",
-              attrs: { href: "#" }
-            },
-            [_vm._v("\n                    Выход\n                ")]
-          )
-        ])
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -38694,6 +38714,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2, null, [[4, 11]]);
       }))();
+    },
+    signOut: function signOut(_ref3) {
+      var commit = _ref3.commit,
+          state = _ref3.state;
+      return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('api/v1/auth/logout', {
+        'token': state.token
+      }).then(function () {
+        localStorage.removeItem('token');
+        commit('set_token', null);
+        commit('set_user', null);
+      });
     }
   }
 });

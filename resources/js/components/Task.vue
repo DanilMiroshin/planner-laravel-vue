@@ -27,7 +27,7 @@
         </div>
         <div class="mb-8">
             <div class="px-4 mb-2 text-white flex justify-between items-center">
-                <div class="opacity-75">Adam Wathan</div>
+                <div class="opacity-75">{{ user.name }}</div>
                 <div>
                     <svg class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
@@ -38,7 +38,7 @@
                 <a class="text-white opacity-75" href="#">Настройки</a>
             </div>
             <div class="flex items-center mb-3 px-4">
-                <a class="text-white opacity-75" href="#">Выход</a>
+                <a class="text-white opacity-75" v-on:click="signout">Выход</a>
             </div>
         </div>
     </div>
@@ -52,10 +52,10 @@
                 </h3>
             </div>
             <div class='flex flex-row py-2'>
-                <a class="text-grey-dark mb-1 text-sm truncate float-right" href="#">
+                <a class="text-grey-dark mb-1 text-sm truncate float-right hover:text-charcoal" href="#">
                     Настройки
                 </a>
-                <a class="text-grey-dark text-sm truncate pl-4" href="#">
+                <a class="text-grey-dark text-sm truncate pl-4 hover:text-charcoal" v-on:click="signout" href="#">
                     Выход
                 </a>
             </div>
@@ -175,7 +175,7 @@
 </div>
 </template>
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         computed: {
@@ -204,6 +204,19 @@
         },
 
         methods: {
+
+            ...mapActions({
+                signoutAction: 'auth/signOut'
+            }),
+
+            signout() {
+                this.signoutAction().then(() => {
+                    this.$router.replace({
+                        name: 'login'
+                    })
+                })
+            },
+
             hideModal() {
                 this.modalShown = false;
                 this.overlay = false;   

@@ -62,6 +62,17 @@ export default {
                 commit('set_token', null)
                 commit('set_user', null)   
             }
+        },
+
+        signOut ( { commit, state },) {
+            return axios.post('api/v1/auth/logout', {
+                    'token': state.token
+            }).then(() => {
+                localStorage.removeItem('token')
+
+                commit('set_token', null)
+                commit('set_user', null) 
+            })
         }
     }
 }
