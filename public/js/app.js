@@ -38283,6 +38283,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
         return next({
           name: 'login'
         });
+      } else {
+        next();
       }
     }
   }, {
@@ -38290,7 +38292,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: 'login',
     component: _components_login_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].getters['auth/authenticated'] !== null) {
+      if (_store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].getters['auth/authenticated']) {
         return next({
           name: 'tasks'
         });
@@ -38303,7 +38305,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: 'registration',
     component: _components_registration_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].getters['auth/authenticated'] !== null) {
+      if (_store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].getters['auth/authenticated']) {
         return next({
           name: 'tasks'
         });

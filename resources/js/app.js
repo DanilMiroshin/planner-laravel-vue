@@ -22,6 +22,8 @@ const router = new VueRouter({
                     return next ({
                         name: 'login'
                     })
+                }  else {
+                    next()
                 }
             }
         },
@@ -30,7 +32,7 @@ const router = new VueRouter({
             name: 'login',
             component:Login,
             beforeEnter: (to, from, next) => {
-                if (store.getters['auth/authenticated'] !== null) {
+                if (store.getters['auth/authenticated']) {
                     return next ({
                         name: 'tasks'
                     })
@@ -44,7 +46,7 @@ const router = new VueRouter({
             name: 'registration',
             component:Register,
             beforeEnter: (to, from, next) => {
-                if (store.getters['auth/authenticated'] !== null) {
+                if (store.getters['auth/authenticated']) {
                     return next ({
                         name: 'tasks'
                     })
