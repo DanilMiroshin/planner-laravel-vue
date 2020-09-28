@@ -1,8 +1,9 @@
-require('./bootstrap');
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from './store/index.js'
+
+require('./store/subscriber')
+require('./bootstrap');
 
 Vue.use(VueRouter)
 

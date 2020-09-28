@@ -21256,41 +21256,7 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "mb-8" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "px-4 mb-2 text-white flex justify-between items-center"
-                },
-                [
-                  _c("div", { staticClass: "opacity-75" }, [_vm._v("Задачи")]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c(
-                      "svg",
-                      {
-                        staticClass: "fill-current h-4 w-4 opacity-50",
-                        attrs: {
-                          xmlns: "http://www.w3.org/2000/svg",
-                          viewBox: "0 0 20 20"
-                        }
-                      },
-                      [
-                        _c("path", {
-                          attrs: {
-                            d:
-                              "M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
-                          }
-                        })
-                      ]
-                    )
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _vm._m(0)
-            ]),
+            _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "mb-8" }, [
               _c(
@@ -21300,40 +21266,18 @@ var render = function() {
                     "px-4 mb-2 text-white flex justify-between items-center"
                 },
                 [
-                  _c("div", { staticClass: "opacity-75" }, [
+                  _c("div", { staticClass: "opacity-75 cursor-default" }, [
                     _vm._v(_vm._s(_vm.user.name))
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c(
-                      "svg",
-                      {
-                        staticClass: "fill-current h-4 w-4 opacity-50",
-                        attrs: {
-                          xmlns: "http://www.w3.org/2000/svg",
-                          viewBox: "0 0 20 20"
-                        }
-                      },
-                      [
-                        _c("path", {
-                          attrs: {
-                            d:
-                              "M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
-                          }
-                        })
-                      ]
-                    )
                   ])
                 ]
               ),
-              _vm._v(" "),
-              _vm._m(1),
               _vm._v(" "),
               _c("div", { staticClass: "flex items-center mb-3 px-4" }, [
                 _c(
                   "a",
                   {
-                    staticClass: "text-white opacity-75",
+                    staticClass:
+                      "text-white opacity-75 hover:text-hookers-green cursor-pointer",
                     on: { click: _vm.signout }
                   },
                   [_vm._v("Выход")]
@@ -21356,23 +21300,9 @@ var render = function() {
                   "border-b flex px-6  py-2 items-center justify-between"
               },
               [
-                _vm._m(2),
+                _vm._m(1),
                 _vm._v(" "),
                 _c("div", { staticClass: "flex flex-row py-2" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass:
-                        "text-grey-dark mb-1 text-sm truncate float-right hover:text-charcoal",
-                      attrs: { href: "#" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    Настройки\n                "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
                   _c(
                     "a",
                     {
@@ -21867,17 +21797,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bg-hookers-green py-1 px-4 text-white" }, [
-      _c("a", { attrs: { href: "#" } }, [_vm._v("# сегодня")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center mb-3 px-4" }, [
-      _c("a", { staticClass: "text-white opacity-75", attrs: { href: "#" } }, [
-        _vm._v("Настройки")
+    return _c("div", { staticClass: "mb-8" }, [
+      _c(
+        "div",
+        {
+          staticClass: "px-4 mb-2 text-white flex justify-between items-center"
+        },
+        [
+          _c("div", { staticClass: "opacity-75 cursor-default" }, [
+            _vm._v("Задачи")
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "bg-hookers-green py-1 px-4 text-white" }, [
+        _c("a", { attrs: { href: "#" } }, [_vm._v("# сегодня")])
       ])
     ])
   },
@@ -38414,10 +38348,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_task_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/task.vue */ "./resources/js/components/task.vue");
 /* harmony import */ var _components_login_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/login.vue */ "./resources/js/components/login.vue");
 /* harmony import */ var _components_registration_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/registration.vue */ "./resources/js/components/registration.vue");
+
+
+
+
+__webpack_require__(/*! ./store/subscriber */ "./resources/js/store/subscriber.js");
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
-
-
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
@@ -38890,6 +38827,33 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 
 /***/ }),
 
+/***/ "./resources/js/store/subscriber.js":
+/*!******************************************!*\
+  !*** ./resources/js/store/subscriber.js ***!
+  \******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
+
+
+_store__WEBPACK_IMPORTED_MODULE_1__["default"].subscribeAction(function (action, state) {
+  switch (action.type) {
+    case 'tasks/loadTasks':
+    case 'tasks/makeTask':
+    case 'tasks/destroyTask':
+    case 'tasks/updateTask':
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('token');
+      break;
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/tasks.js":
 /*!*************************************!*\
   !*** ./resources/js/store/tasks.js ***!
@@ -38936,11 +38900,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 commit = _ref.commit;
                 _context.prev = 1;
                 _context.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('api/v1/tasks', {
-                  headers: {
-                    'Authorization': 'Bearer' + localStorage.getItem('token')
-                  }
-                });
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('api/v1/tasks');
 
               case 4:
                 response = _context.sent;
@@ -38970,7 +38930,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _ = _ref2._;
                 _context2.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('api/v1/tasks/', {
-                  'token': localStorage.getItem('token'),
                   'description': task.description
                 });
 
@@ -38995,9 +38954,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _ = _ref3._;
                 _context3.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]('api/v1/tasks/' + task_id, {
-                  'token': localStorage.getItem('token')
-                });
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]('api/v1/tasks/' + task_id);
 
               case 3:
                 return _context3.abrupt("return", _context3.sent);
@@ -39021,7 +38978,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _ = _ref4._;
                 _context4.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('api/v1/tasks/' + task.id, {
-                  'token': localStorage.getItem('token'),
                   'description': task.description
                 });
 
