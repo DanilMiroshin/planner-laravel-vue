@@ -47,7 +47,6 @@ export default {
                 return
             }
             
-
             try {
                 let response = await axios.get('api/v1/auth/me', {
                     headers : {

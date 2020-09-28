@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
     protected $fillable = [
-        'description',
+        'user_id', 'description',
     ];
 
     public function user()

@@ -3,32 +3,35 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Task;
-use App\Http\Resources\Task as TaskResource;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Task as TaskResource;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Http\Response;
 
 class TasksController extends Controller
-{
+{ 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Resources\Task
      */
     public function index()
     {
-        return TaskResource::collection(Task::all());
+        return TaskResource::collection(request()->user()->tasks);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\TaskRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(TaskRequest $request)
     {
-        $task = Task::create($request->all());
+        $task = Task::create([
+            'user_id'       => request()->user()->id,
+            'description'   => $request->description,
+        ]);
 
         return TaskResource::make($task);       
     }
@@ -47,27 +50,24 @@ class TasksController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  App\Task $task
+     * @param  App\Http\Requests\TaskRequest $request
+     * @return App\Http\Resources\Task $task
      */
     public function update(Task $task, TaskRequest $request)
     {
-
         $task->update($request->all());
-
         return TaskResource::make($task);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  App\Task $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        $task = Task::findOrFail($id);
         $task->delete();
         return response(null, Response::HTTP_OK);
     }

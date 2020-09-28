@@ -62,7 +62,7 @@
         </div>
         <div class="px-6 py-4 flex-1 overflow-y-scroll">
             <!-- Successs message -->
-            <div v-show="success" class="bg-teal-100 border border-teal-500 text-red-700 px-4 py-3 rounded relative mb-8" role="alert">
+            <div v-show="success" class="bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8" role="alert">
                 <strong class="font-bold">Успешно!</strong>
                 <span class="block sm:inline">{{ message }}</span>
                 <span v-on:click="dismissMessage" class="absolute top-0 bottom-0 right-0 px-4 py-3">
@@ -182,14 +182,14 @@
             ...mapGetters ({
                 authenticated: 'auth/authenticated',
                 user: 'auth/user',
+                tasks: 'tasks/getTasks'
             })
         },
 
         data : function() {
             return {
-                tasks: [],
                 task: {},
-                selectedTask : {},
+                selectedTask: {},
                 success: false,
                 errors: {},
                 message: '',
@@ -204,9 +204,12 @@
         },
 
         methods: {
-
             ...mapActions({
-                signoutAction: 'auth/signOut'
+                signoutAction: 'auth/signOut',
+                getTasks: 'tasks/loadTasks',
+                makeTask: 'tasks/makeTask',
+                destroyTask: 'tasks/destroyTask',
+                updateTask: 'tasks/updateTask',
             }),
 
             signout() {
@@ -232,63 +235,54 @@
                 this.success = false;
             },
 
+            loadTasks: function () {
+                this.getTasks()
+            },
+
             createTask: function () {
-                axios.post('api/v1/tasks/', this.task)
-                    .then(response => {
+                this.makeTask(this.task)
+                    .then(() => {
                         this.loadTasks(); 
                         this.task = {};                      
                         this.message = 'Задача добавлена';
                         this.success = true;
-                        this.errors = {};                                           
+                        this.errors = {}; 
                     })
                     .catch(error => {
                         if (error.response.status == 422) {
                             this.errors = error.response.data.errors;
                         }
-                        console.log(error);
-                    }); 
-            },
-
-            loadTasks: function () {
-                axios.get('api/v1/tasks')
-                    .then((response) => {
-                        this.tasks = response.data.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    }); 
+                    });
             },
 
             deleteTask: function(id) {
                 if (confirm('Вы уверены?')) {
-                    axios.delete('api/v1/tasks/' + id)
+                    this.destroyTask(id)
                         .then((response) => {
                             this.success = false; 
                             this.loadTasks();                          
                             this.message = 'Задача удаленна';
                             this.success = true;                                               
                         })
-                        .catch(function (error) {
+                        .catch(error => {
                             console.log(error);
                         });
                 } 
             },
 
             editTask: function() {        
-                axios.put('api/v1/tasks/' + this.selectedTask.id, {
-                    description: this.selectedTask.description
-                })
+                this.updateTask(this.selectedTask)
                     .then((response) => {
                         this.loadTasks();
                         this.hideModal();
-                        this.selectedTask.task = {};                          
+                        this.selectedTask = {};                          
                         this.message = 'Задача изменена';
                         this.success = true;                                             
                     })
-                    .catch(function (error) {
+                    .catch(error => {
                         console.log(error);
                     });
-            },
+            }
         }
     }
 </script>

@@ -2299,11 +2299,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     authenticated: 'auth/authenticated',
-    user: 'auth/user'
+    user: 'auth/user',
+    tasks: 'tasks/getTasks'
   })),
   data: function data() {
     return {
-      tasks: [],
       task: {},
       selectedTask: {},
       success: false,
@@ -2318,7 +2318,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.overlay = false;
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
-    signoutAction: 'auth/signOut'
+    signoutAction: 'auth/signOut',
+    getTasks: 'tasks/loadTasks',
+    makeTask: 'tasks/makeTask',
+    destroyTask: 'tasks/destroyTask',
+    updateTask: 'tasks/updateTask'
   })), {}, {
     signout: function signout() {
       var _this = this;
@@ -2341,10 +2345,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     dismissMessage: function dismissMessage() {
       this.success = false;
     },
+    loadTasks: function loadTasks() {
+      this.getTasks();
+    },
     createTask: function createTask() {
       var _this2 = this;
 
-      axios.post('api/v1/tasks/', this.task).then(function (response) {
+      this.makeTask(this.task).then(function () {
         _this2.loadTasks();
 
         _this2.task = {};
@@ -2355,48 +2362,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (error.response.status == 422) {
           _this2.errors = error.response.data.errors;
         }
-
-        console.log(error);
-      });
-    },
-    loadTasks: function loadTasks() {
-      var _this3 = this;
-
-      axios.get('api/v1/tasks').then(function (response) {
-        _this3.tasks = response.data.data;
-      })["catch"](function (error) {
-        console.log(error);
       });
     },
     deleteTask: function deleteTask(id) {
-      var _this4 = this;
+      var _this3 = this;
 
       if (confirm('Вы уверены?')) {
-        axios["delete"]('api/v1/tasks/' + id).then(function (response) {
-          _this4.success = false;
+        this.destroyTask(id).then(function (response) {
+          _this3.success = false;
 
-          _this4.loadTasks();
+          _this3.loadTasks();
 
-          _this4.message = 'Задача удаленна';
-          _this4.success = true;
+          _this3.message = 'Задача удаленна';
+          _this3.success = true;
         })["catch"](function (error) {
           console.log(error);
         });
       }
     },
     editTask: function editTask() {
-      var _this5 = this;
+      var _this4 = this;
 
-      axios.put('api/v1/tasks/' + this.selectedTask.id, {
-        description: this.selectedTask.description
-      }).then(function (response) {
-        _this5.loadTasks();
+      this.updateTask(this.selectedTask).then(function (response) {
+        _this4.loadTasks();
 
-        _this5.hideModal();
+        _this4.hideModal();
 
-        _this5.selectedTask.task = {};
-        _this5.message = 'Задача изменена';
-        _this5.success = true;
+        _this4.selectedTask = {};
+        _this4.message = 'Задача изменена';
+        _this4.success = true;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -21409,7 +21403,7 @@ var render = function() {
                       }
                     ],
                     staticClass:
-                      "bg-teal-100 border border-teal-500 text-red-700 px-4 py-3 rounded relative mb-8",
+                      "bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8",
                     attrs: { role: "alert" }
                   },
                   [
@@ -38878,6 +38872,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth */ "./resources/js/store/auth.js");
+/* harmony import */ var _tasks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tasks */ "./resources/js/store/tasks.js");
+
 
 
 
@@ -38887,9 +38883,161 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   mutations: {},
   actions: {},
   modules: {
-    auth: _auth__WEBPACK_IMPORTED_MODULE_2__["default"]
+    auth: _auth__WEBPACK_IMPORTED_MODULE_2__["default"],
+    tasks: _tasks__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/tasks.js":
+/*!*************************************!*\
+  !*** ./resources/js/store/tasks.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: {
+    tasks: []
+  },
+  getters: {
+    getTasks: function getTasks(state) {
+      return state.tasks;
+    }
+  },
+  mutations: {
+    set_tasks: function set_tasks(state, tasks) {
+      state.tasks = tasks;
+    }
+  },
+  actions: {
+    loadTasks: function loadTasks(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var commit, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                _context.prev = 1;
+                _context.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('api/v1/tasks', {
+                  headers: {
+                    'Authorization': 'Bearer' + localStorage.getItem('token')
+                  }
+                });
+
+              case 4:
+                response = _context.sent;
+                return _context.abrupt("return", commit('set_tasks', response.data.data));
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](1);
+                return _context.abrupt("return", commit('set_tasks', null));
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[1, 8]]);
+      }))();
+    },
+    makeTask: function makeTask(_ref2, task) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _ = _ref2._;
+                _context2.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('api/v1/tasks/', {
+                  'token': localStorage.getItem('token'),
+                  'description': task.description
+                });
+
+              case 3:
+                return _context2.abrupt("return", _context2.sent);
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    destroyTask: function destroyTask(_ref3, task_id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var _;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _ = _ref3._;
+                _context3.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]('api/v1/tasks/' + task_id, {
+                  'token': localStorage.getItem('token')
+                });
+
+              case 3:
+                return _context3.abrupt("return", _context3.sent);
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    updateTask: function updateTask(_ref4, task) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var _;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _ = _ref4._;
+                _context4.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('api/v1/tasks/' + task.id, {
+                  'token': localStorage.getItem('token'),
+                  'description': task.description
+                });
+
+              case 3:
+                return _context4.abrupt("return", _context4.sent);
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    }
+  }
+});
 
 /***/ }),
 

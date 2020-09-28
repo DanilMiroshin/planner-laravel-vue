@@ -6,7 +6,7 @@
 
             <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
                 <p class="text-center text-3xl">Вход</p>
-                <form class="flex flex-col pt-3 md:pt-8"">
+                <form class="flex flex-col pt-3 md:pt-8">
 
                     <!-- Error message -->
                     <div v-if="errors && error_message" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
