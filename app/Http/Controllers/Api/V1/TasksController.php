@@ -9,7 +9,11 @@ use App\Http\Requests\TaskRequest;
 use Illuminate\Http\Response;
 
 class TasksController extends Controller
-{ 
+{
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -56,7 +60,9 @@ class TasksController extends Controller
      */
     public function update(Task $task, TaskRequest $request)
     {
-        $task->update($request->all());
+        if ($task->user_id == request()->user()->id) {
+            $task->update($request->all());
+        }
         return TaskResource::make($task);
     }
 
@@ -68,7 +74,9 @@ class TasksController extends Controller
      */
     public function destroy(Task $task)
     {
-        $task->delete();
+        if ($task->user_id == request()->user()->id) {
+            $task->delete();
+        }
         return response(null, Response::HTTP_OK);
     }
 }
