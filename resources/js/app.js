@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from './store/index.js'
+import loader from "vue-ui-preloader";
 
 require('./store/subscriber')
 require('./bootstrap');
 
 Vue.use(VueRouter)
+Vue.use(loader);
 
 import Tasks from './components/task.vue'
 import Login from './components/login.vue'
