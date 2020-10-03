@@ -1,67 +1,6 @@
 <template>
-<div class="h-screen overflow-hidden flex items-center justify-center "  style="background: #edf2f7;">
-<div class="font-sans antialiased h-screen flex w-full">
-    <!-- Sidebar -->
-    <div class="bg-charcoal text-purple-lighter flex-none w-64 pb-6 hidden md:block">
-        <div class="text-white mb-2 mt-3 px-4 flex justify-between">
-            <div class="flex-auto">
-                <h1 class="font-semibold text-xl leading-tight mb-1 truncate">Planner</h1>
-                <div class="flex items-center mb-6">
-                    <span class="bg-green rounded-full block w-2 h-2 mr-2"></span>
-                    <span class="text-white opacity-50 text-sm">{{ user.name }}</span>
-                </div>
-            </div>
-        </div>
-        <div class="mb-8">
-            <div class="px-4 mb-2 text-white flex justify-between items-center">
-                <div class="opacity-75 cursor-default">Задачи</div>
-                <!-- <div>
-                    <svg class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
-                    </svg>
-                </div> -->
-            </div>
-            <div class="bg-hookers-green py-1 px-4 text-white">
-                <a href="#"># сегодня</a>
-            </div>
-        </div>
-        <div class="mb-8">
-            <div class="px-4 mb-2 text-white flex justify-between items-center">
-                <div class="opacity-75 cursor-default">{{ user.name }}</div>
-                <!-- <div>
-                    <svg class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
-                    </svg>
-                </div> -->
-            </div>
-            <!-- <div class="flex items-center mb-3 px-4">
-                <a class="text-white opacity-75" href="#">Настройки</a>
-            </div> -->
-            <div class="flex items-center mb-3 px-4">
-                <a class="text-white opacity-75 hover:text-hookers-green cursor-pointer" v-on:click="signout">Выход</a>
-            </div>
-        </div>
-    </div>
-    <!-- Tasks content -->
-    <div class="flex-1 flex flex-col bg-white w-full overflow-hidden">
-        <!-- Top bar -->
-        <div class="border-b flex px-6  py-2 items-center justify-between">
-            <div>
-                <h3 class="text-grey-darkest font-extrabold">
-                    #Сегодня
-                </h3>
-            </div>
-            <div class='flex flex-row py-2'>
-                <!-- <a class="text-grey-dark mb-1 text-sm truncate float-right hover:text-charcoal" href="#">
-                    Настройки
-                </a> -->
-                <a class="text-grey-dark text-sm truncate pl-4 hover:text-charcoal" v-on:click="signout" href="#">
-                    Выход
-                </a>
-            </div>
-        </div>
+    <div class ='h-full flex-1 flex-col flex bg-white w-full overflow-hidden'>
         <div class="px-6 py-4 flex-1 overflow-y-scroll">
-
             <loader v-show="isLoading" object="#52796f" color1="#ffffff" color2="#fa0000" size="3" speed="1" bg="#000000" objectbg="#ffffff" opacity="95" name="spinning"></loader>
             <!-- Successs message -->
             <div v-show="success" class="bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8" role="alert">
@@ -132,8 +71,7 @@
                 <input type="text" name="description" class="w-full px-4" v-model='task.description' placeholder="Добавьте задачу" autofocus required />               
             </div>
         </div>
-    </div>
-    <!-- Background overlay -->
+            <!-- Background overlay -->
     <div v-show="overlay" class="fixed inset-0 transition-opacity">
         <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
     </div>
@@ -173,21 +111,19 @@
             </div>
         </div>
     </div>
-</div>
-</div>
+    </div>
+
 </template>
+
 <script>
     import { mapGetters, mapActions } from 'vuex'
 
     export default {
         computed: {
             ...mapGetters ({
-                authenticated: 'auth/authenticated',
-                user: 'auth/user',
                 tasks: 'tasks/getTasks'
             })
         },
-
         data : function() {
             return {
                 isLoading: true,
@@ -200,34 +136,22 @@
                 modalShown: false
             }
         },
-
         mounted() {
             this.loadTasks();
             this.overlay = false;
         },
-
         methods: {
             ...mapActions({
-                signoutAction: 'auth/signOut',
                 getTasks: 'tasks/loadTasks',
                 makeTask: 'tasks/makeTask',
                 destroyTask: 'tasks/destroyTask',
                 updateTask: 'tasks/updateTask',
             }),
 
-            signout() {
-                this.signoutAction().then(() => {
-                    this.$router.replace({
-                        name: 'login'
-                    })
-                })
-            },
-
             hideModal() {
                 this.modalShown = false;
                 this.overlay = false;   
             },
-
             showModal(task) {
                 this.selectedTask = task;
                 this.overlay = true;
@@ -238,16 +162,17 @@
                 this.success = false;
             },
 
+
             loadTasks: function () {
                 this.getTasks()
                     .then(() => {
                         this.isLoading = false; 
                     })
             },
-
             createTask: function () {
                 this.makeTask(this.task)
                     .then(() => {
+                        this.isLoading = true;
                         this.loadTasks(); 
                         this.task = {};                      
                         this.message = 'Задача добавлена';
@@ -260,11 +185,11 @@
                         }
                     });
             },
-
             deleteTask: function(id) {
                 if (confirm('Вы уверены?')) {
                     this.destroyTask(id)
                         .then((response) => {
+                            this.isLoading = true;
                             this.success = false; 
                             this.loadTasks();                          
                             this.message = 'Задача удаленна';
@@ -275,10 +200,10 @@
                         });
                 } 
             },
-
             editTask: function() {        
                 this.updateTask(this.selectedTask)
                     .then((response) => {
+                        this.isLoading = true;
                         this.loadTasks();
                         this.hideModal();
                         this.selectedTask = {};                          
@@ -292,4 +217,3 @@
         }
     }
 </script>
-

@@ -1,4 +1,4 @@
-import Tasks from '../components/task.vue'
+import MainPage from '../components/main-page.vue'
 import Login from '../components/login.vue'
 import Register from '../components/registration.vue'
 
@@ -7,16 +7,14 @@ import store from '../store/index.js'
 export default [
     { 
         path:'/',
-        name: 'tasks',
-        component:Tasks,
+        name: 'main-page',
+        component:MainPage,
         beforeEnter: (to, from, next) => {
             if (!store.getters['auth/authenticated']) {
                 return next ({
                     name: 'login'
                 })
-            }  else {
-                next()
-            }
+            }  else next()
         }
     },
     { 
@@ -26,11 +24,9 @@ export default [
         beforeEnter: (to, from, next) => {
             if (store.getters['auth/authenticated']) {
                 return next ({
-                    name: 'tasks'
+                    name: 'main-page'
                 })
-            } else {
-                next()
-            }
+            } else next()
         }
     },
     { 
@@ -40,11 +36,9 @@ export default [
         beforeEnter: (to, from, next) => {
             if (store.getters['auth/authenticated']) {
                 return next ({
-                    name: 'tasks'
+                    name: 'main-page'
                 })
-            } else {
-                next()
-            }
+            } else next()
         }        
     },
 ];

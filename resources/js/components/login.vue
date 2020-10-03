@@ -74,7 +74,7 @@
             submit () {
                 this.login(this.user).then(() => {
                     this.$router.replace({
-                        name: 'tasks'
+                        name: 'main-page'
                     })
                 }).catch(error => {
                     if (error.response.status == 422) {
