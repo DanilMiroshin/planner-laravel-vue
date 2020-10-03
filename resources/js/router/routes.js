@@ -1,14 +1,15 @@
 import MainPage from '../components/main-page.vue'
 import Login from '../components/login.vue'
 import Register from '../components/registration.vue'
+import PageNotFound from '../components/page-not-found.vue'
 
 import store from '../store/index.js'
 
 export default [
     { 
-        path:'/',
+        path: '/',
         name: 'main-page',
-        component:MainPage,
+        component: MainPage,
         beforeEnter: (to, from, next) => {
             if (!store.getters['auth/authenticated']) {
                 return next ({
@@ -18,9 +19,9 @@ export default [
         }
     },
     { 
-        path:'/login',
+        path: '/login',
         name: 'login',
-        component:Login,
+        component: Login,
         beforeEnter: (to, from, next) => {
             if (store.getters['auth/authenticated']) {
                 return next ({
@@ -30,9 +31,9 @@ export default [
         }
     },
     { 
-        path:'/registration',
+        path: '/registration',
         name: 'registration',
-        component:Register,
+        component: Register,
         beforeEnter: (to, from, next) => {
             if (store.getters['auth/authenticated']) {
                 return next ({
@@ -41,4 +42,9 @@ export default [
             } else next()
         }        
     },
+    {
+        path: "/page-not-found",
+        alias: '*',
+        component: PageNotFound
+    }
 ];
