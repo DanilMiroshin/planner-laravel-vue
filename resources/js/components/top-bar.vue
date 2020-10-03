@@ -6,9 +6,9 @@
             </h3>
         </div>
         <div class='pr-12 flex justify-self-end items-center'>
-            <a class="text-grey-dark text-sm truncate hover:text-charcoal cursor-pointer">
+            <router-link class="text-grey-dark text-sm truncate hover:text-charcoal cursor-pointer" to="settings">
                 Настройки
-            </a>
+            </router-link>
             <a class="text-grey-dark text-sm truncate pl-4 hover:text-charcoal cursor-pointer" v-on:click="signout" href="#">
                 Выход
             </a>

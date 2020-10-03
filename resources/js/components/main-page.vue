@@ -7,7 +7,7 @@
             <!-- Main content -->
             <div class="flex-1 flex flex-col bg-white">
                 <TopBar></TopBar>
-                <TasksCrud></TasksCrud>
+                <router-view></router-view>
             </div>
         </div>
     </div>
@@ -15,11 +15,11 @@
 <script>
     import TopBar from './top-bar.vue'
     import SideBar from './side-bar.vue'
-    import TasksCrud from './tasks-crud.vue'
+    
 
     export default {
         components: {
-            SideBar, TopBar, TasksCrud
+            SideBar, TopBar
         }
     }
 </script>

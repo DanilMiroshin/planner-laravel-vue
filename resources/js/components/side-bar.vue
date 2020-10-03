@@ -19,7 +19,9 @@
                 </div> -->
             </div>
             <div class="bg-hookers-green py-1 px-4 text-white">
-                <a href="#"># сегодня</a>
+                <router-link class="cursor-pointer" to='/'>
+                    # сегодня
+                </router-link>
             </div>
         </div>
 <!--         <div class="mb-8">

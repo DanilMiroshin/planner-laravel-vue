@@ -71,48 +71,47 @@
                 <input type="text" name="description" class="w-full px-4" v-model='task.description' placeholder="Добавьте задачу" autofocus required />               
             </div>
         </div>
-            <!-- Background overlay -->
-    <div v-show="overlay" class="fixed inset-0 transition-opacity">
-        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-    </div>
-    <!-- Modal -->
-    <div v-show="modalShown" class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">  
-        <div class="bg-gray rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div class="sm:flex sm:items-start">
-                    <div class="mt-2 mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 sm:mx-0 sm:h-10 sm:w-10">
-                        <svg class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                            />
-                        </svg>
-                    </div>
-                    <div class="w-full mt-5 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <div class="w-full mt-2">
-                            <input type="text" name="description" class="w-full h-8 border-b border-charcoal" v-model='selectedTask.description' required />
+        <!-- Background overlay -->
+        <div v-show="overlay" class="fixed inset-0 transition-opacity">
+            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+        <!-- Modal -->
+        <div v-show="modalShown" class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">  
+            <div class="bg-gray rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-2 mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                />
+                            </svg>
+                        </div>
+                        <div class="w-full mt-5 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <div class="w-full mt-2">
+                                <input type="text" name="description" class="w-full h-8 border-b border-charcoal" v-model='selectedTask.description' required />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="bg-white px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                    <button v-on:click="editTask" type="submit" class="inline-flex justify-center w-full hover:bg-hookers-green rounded-md border border-transparent px-4 py-2 bg-charcoal text-base leading-6 font-medium text-white shadow-sm hover:charcoal focus:outline-none focus:border-charcoal focus:shadow-outline-charcoal transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-                        Редактировать
-                    </button>
-                </span>
-                <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
-                    <button v-on:click="hideModal" type="button" class="inline-flex justify-center w-full hover:bg-charcoal rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-white focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-                        Отмена
-                    </button>
-                </span>
+                <div class="bg-white px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                        <button v-on:click="editTask" type="submit" class="inline-flex justify-center w-full hover:bg-hookers-green rounded-md border border-transparent px-4 py-2 bg-charcoal text-base leading-6 font-medium text-white shadow-sm hover:charcoal focus:outline-none focus:border-charcoal focus:shadow-outline-charcoal transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                            Редактировать
+                        </button>
+                    </span>
+                    <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+                        <button v-on:click="hideModal" type="button" class="inline-flex justify-center w-full hover:bg-charcoal rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-white focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                            Отмена
+                        </button>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-
 </template>
 
 <script>
