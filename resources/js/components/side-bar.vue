@@ -43,14 +43,7 @@
     </div>
 </template>
 <script>
-    import { mapGetters, mapActions } from 'vuex'
-
     export default {
-        computed: {
-            ...mapGetters ({
-                authenticated: 'auth/authenticated',
-                user: 'auth/user'
-            })
-        },
+        props: ['user']
     }
 </script>

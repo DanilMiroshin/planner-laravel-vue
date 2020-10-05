@@ -18,7 +18,7 @@
                 <div class="flex-1 overflow-hidden">
                     <div class="flex rounded-lg border-2 border-hookers-green overflow-hidden">
                         <!-- Complete button -->
-                        <button class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
+                        <!-- <button class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
                             <svg class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <title>Выполнить</title>
                                 <path
@@ -28,7 +28,7 @@
                                     d="M5 13l4 4L19 7"
                                 />
                             </svg>
-                        </button>
+                        </button> -->
                         <!-- Edit button -->
                         <button v-on:click="showModal(task)" class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
                             <svg class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
