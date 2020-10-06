@@ -2235,26 +2235,75 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   data: function data() {
     return {
-      data: {
-        name: '',
-        email: '',
-        passwords: {
-          old_password: '',
-          password: '',
-          password_confirmation: ''
-        }
-      },
+      name: this.user.name,
+      email: this.user.email,
+      old_password: '',
+      password: '',
+      password_confirmation: '',
       errors: {},
-      success: false
+      success: false,
+      isLoading: false
     };
   },
   methods: {
-    updateUserInfo: function updateUserInfo(data) {
-      console.log(data);
+    updateName: function updateName() {
+      var _this = this;
+
+      axios.patch('api/v1/update/name', {
+        'token': localStorage.getItem('token'),
+        'name': this.name
+      }).then(function () {
+        _this.success = true;
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          _this.errors = error.response.data.errors;
+        }
+      });
+    },
+    updateEmail: function updateEmail() {
+      var _this2 = this;
+
+      this.isLoading = true;
+      axios.patch('api/v1/update/email', {
+        'token': localStorage.getItem('token'),
+        'email': this.email
+      }).then(function () {
+        _this2.success = true;
+        _this2.isLoading = false;
+      })["catch"](function (error) {
+        _this2.isLoading = false;
+
+        if (error.response.status == 422) {
+          _this2.errors = error.response.data.errors;
+        }
+      });
+    },
+    updatePassword: function updatePassword() {
+      var _this3 = this;
+
+      this.isLoading = true;
+      axios.patch('api/v1/update/password', {
+        'token': localStorage.getItem('token'),
+        'password': this.password,
+        'old_password': this.old_password,
+        'password_confirmation': this.password_confirmation
+      }).then(function () {
+        _this3.success = true;
+        _this3.isLoading = false;
+      })["catch"](function (error) {
+        _this3.isLoading = false;
+
+        if (error.response.status == 422) {
+          _this3.errors = error.response.data.errors;
+        }
+      });
     },
     dismissMessage: function dismissMessage() {
       this.success = false;
@@ -22862,364 +22911,361 @@ var render = function() {
       staticClass: "h-full flex-1 flex-col flex bg-white w-full overflow-hidden"
     },
     [
-      _c("div", { staticClass: "w-full px-6 py-4 flex-1 overflow-y-scroll" }, [
-        _c("div", { staticClass: "w-full" }, [
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.success,
-                  expression: "success"
-                }
-              ],
-              staticClass:
-                "bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8",
-              attrs: { role: "alert" }
-            },
-            [
-              _c("strong", { staticClass: "font-bold" }, [_vm._v("Успешно!")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "block sm:inline" }, [
-                _vm._v("Данные обновлены")
-              ]),
-              _vm._v(" "),
-              _c(
-                "span",
-                {
-                  staticClass: "absolute top-0 bottom-0 right-0 px-4 py-3",
-                  on: { click: _vm.dismissMessage }
-                },
-                [
+      _c(
+        "div",
+        { staticClass: "w-full px-6 py-4 flex-1 overflow-y-scroll" },
+        [
+          _c("loader", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.isLoading,
+                expression: "isLoading"
+              }
+            ],
+            attrs: {
+              object: "#52796f",
+              color1: "#ffffff",
+              color2: "#fa0000",
+              size: "3",
+              speed: "1",
+              bg: "#000000",
+              objectbg: "#ffffff",
+              opacity: "95",
+              name: "spinning"
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-full" }, [
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.success,
+                    expression: "success"
+                  }
+                ],
+                staticClass:
+                  "bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8",
+                attrs: { role: "alert" }
+              },
+              [
+                _c("strong", { staticClass: "font-bold" }, [
+                  _vm._v("Успешно!")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "block sm:inline" }, [
+                  _vm._v("Данные обновлены")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    staticClass: "absolute top-0 bottom-0 right-0 px-4 py-3",
+                    on: { click: _vm.dismissMessage }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "fill-current h-6 w-6 text-teal-500",
+                        attrs: {
+                          role: "button",
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 20 20"
+                        }
+                      },
+                      [
+                        _c("title", [_vm._v("Закрыть")]),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2",
+                on: { submit: _vm.updateName }
+              },
+              [
+                _c("div", { staticClass: "w-full px-3 mb-6 md:mb-0" }, [
                   _c(
-                    "svg",
+                    "label",
                     {
-                      staticClass: "fill-current h-6 w-6 text-teal-500",
-                      attrs: {
-                        role: "button",
-                        xmlns: "http://www.w3.org/2000/svg",
-                        viewBox: "0 0 20 20"
-                      }
+                      staticClass:
+                        "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
+                      attrs: { for: "grid-name" }
                     },
                     [
-                      _c("title", [_vm._v("Закрыть")]),
-                      _vm._v(" "),
-                      _c("path", {
-                        attrs: {
-                          d:
-                            "M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
-                        }
-                      })
+                      _vm._v(
+                        "\n                         Имя\n                     "
+                      )
                     ]
-                  )
-                ]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2",
-              on: {
-                submit: function($event) {
-                  return _vm.updateUserInfo(_vm.data.name)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "w-full px-3 mb-6 md:mb-0" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass:
-                      "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
-                    attrs: { for: "grid-name" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                         Имя\n                     "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.data.name,
-                      expression: "data.name"
-                    }
-                  ],
-                  staticClass:
-                    "appearance-none block w-full bg-white text-gray-700 border border-red rounded py-3 px-4 leading-tight focus:outline-none",
-                  attrs: {
-                    id: "grid-name",
-                    type: "text",
-                    placeholder: [[_vm.user.name]]
-                  },
-                  domProps: { value: _vm.data.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.name,
+                        expression: "name"
                       }
-                      _vm.$set(_vm.data, "name", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "text-red text-xs italic" }, [
-                  _vm._v("Ошибка")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass:
-                    "bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded",
-                  attrs: { type: "submit", value: "Изменить" }
-                })
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2",
-              on: {
-                submit: function($event) {
-                  return _vm.updateUserInfo(_vm.data.email)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "w-full px-3" }, [
-                _c(
-                  "label",
-                  {
+                    ],
                     staticClass:
-                      "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
-                    attrs: { for: "grid-email" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                         Почта\n                     "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.data.email,
-                      expression: "data.email"
-                    }
-                  ],
-                  staticClass:
-                    "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500",
-                  attrs: {
-                    id: "grid-email",
-                    type: "email",
-                    placeholder: [[_vm.user.email]]
-                  },
-                  domProps: { value: _vm.data.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                      "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none",
+                    attrs: { id: "grid-name", type: "text" },
+                    domProps: { value: _vm.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.name = $event.target.value
                       }
-                      _vm.$set(_vm.data, "email", $event.target.value)
                     }
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "text-red text-xs italic" }, [
-                  _vm._v("Ошибка")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass:
-                    "bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded",
-                  attrs: { type: "submit", value: "Изменить" }
-                })
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "form",
-            {
-              staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2",
-              on: {
-                submit: function($event) {
-                  return _vm.updateUserInfo(_vm.data.passwords)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "w-full px-3" }, [
-                _c(
-                  "label",
-                  {
+                  }),
+                  _vm._v(" "),
+                  _vm.errors && _vm.errors.name
+                    ? _c("p", { staticClass: "text-red text-xs italic" }, [
+                        _vm._v(_vm._s(_vm.errors.name[0]))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
                     staticClass:
-                      "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
-                    attrs: { for: "grid-old-password" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                         Старый пароль\n                     "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
+                      "bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded",
+                    attrs: { type: "submit", value: "Изменить" }
+                  })
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "form",
+              { staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2" },
+              [
+                _c("div", { staticClass: "w-full px-3" }, [
+                  _c(
+                    "label",
                     {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.data.passwords.old_password,
-                      expression: "data.passwords.old_password"
-                    }
-                  ],
-                  staticClass:
-                    "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:border-gray-500",
-                  attrs: {
-                    name: "old_password",
-                    id: "grid-old-password",
-                    type: "password"
-                  },
-                  domProps: { value: _vm.data.passwords.old_password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.data.passwords,
-                        "old_password",
-                        $event.target.value
+                      staticClass:
+                        "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
+                      attrs: { for: "grid-email" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                         Почта\n                     "
                       )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "text-red text-xs italic mb-2" }, [
-                  _vm._v("Ошибка")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "label",
-                  {
-                    staticClass:
-                      "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
-                    attrs: { for: "grid-password" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                         Новый пароль\n                     "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.data.passwords.password,
-                      expression: "data.passwords.password"
-                    }
-                  ],
-                  staticClass:
-                    "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
-                  attrs: {
-                    name: "password",
-                    id: "grid-password",
-                    type: "password"
-                  },
-                  domProps: { value: _vm.data.passwords.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.email,
+                        expression: "email"
                       }
-                      _vm.$set(
-                        _vm.data.passwords,
-                        "password",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "text-red text-xs italic mb-2" }, [
-                  _vm._v("Ошибка")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "label",
-                  {
+                    ],
                     staticClass:
-                      "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
-                    attrs: { for: "grid-password-confirmation" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                         Повторите пароль\n                     "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.data.passwords.password_confirmation,
-                      expression: "data.passwords.password_confirmation"
-                    }
-                  ],
-                  staticClass:
-                    "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
-                  attrs: {
-                    name: "password_confirmation",
-                    id: "grid-password-confirmation",
-                    type: "password"
-                  },
-                  domProps: { value: _vm.data.passwords.password_confirmation },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                      "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500",
+                    attrs: { id: "grid-email", type: "email" },
+                    domProps: { value: _vm.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.email = $event.target.value
                       }
-                      _vm.$set(
-                        _vm.data.passwords,
-                        "password_confirmation",
-                        $event.target.value
-                      )
                     }
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "text-red text-xs italic mb-2" }, [
-                  _vm._v("Ошибка")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass:
-                    "bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded",
-                  attrs: { type: "submit", value: "Изменить" }
-                })
-              ])
-            ]
-          )
-        ])
-      ])
+                  }),
+                  _vm._v(" "),
+                  _vm.errors && _vm.errors.email
+                    ? _c("p", { staticClass: "text-red text-xs italic" }, [
+                        _vm._v(_vm._s(_vm.errors.email[0]))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass:
+                      "bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded",
+                    attrs: { type: "button", value: "Изменить" },
+                    on: { click: _vm.updateEmail }
+                  })
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "form",
+              { staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2" },
+              [
+                _c("div", { staticClass: "w-full px-3" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
+                      attrs: { for: "grid-old-password" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                         Старый пароль\n                     "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.old_password,
+                        expression: "old_password"
+                      }
+                    ],
+                    staticClass:
+                      "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:border-gray-500",
+                    attrs: {
+                      name: "old_password",
+                      id: "grid-old-password",
+                      type: "password"
+                    },
+                    domProps: { value: _vm.old_password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.old_password = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors && _vm.errors.old_password
+                    ? _c("p", { staticClass: "text-red text-xs italic" }, [
+                        _vm._v(_vm._s(_vm.errors.old_password[0]))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
+                      attrs: { for: "grid-password" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                         Новый пароль\n                     "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.password,
+                        expression: "password"
+                      }
+                    ],
+                    staticClass:
+                      "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
+                    attrs: {
+                      name: "password",
+                      id: "grid-password",
+                      type: "password"
+                    },
+                    domProps: { value: _vm.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.password = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors && _vm.errors.password
+                    ? _c("p", { staticClass: "text-red text-xs italic" }, [
+                        _vm._v(_vm._s(_vm.errors.password[0]))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
+                      attrs: { for: "grid-password-confirmation" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                         Повторите пароль\n                     "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.password_confirmation,
+                        expression: "password_confirmation"
+                      }
+                    ],
+                    staticClass:
+                      "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
+                    attrs: {
+                      name: "password_confirmation",
+                      id: "grid-password-confirmation",
+                      type: "password"
+                    },
+                    domProps: { value: _vm.password_confirmation },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.password_confirmation = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass:
+                      "bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded",
+                    attrs: { type: "button", value: "Изменить" },
+                    on: { click: _vm.updatePassword }
+                  })
+                ])
+              ]
+            )
+          ])
+        ],
+        1
+      )
     ]
   )
 }

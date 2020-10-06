@@ -1,6 +1,7 @@
 <template>
    <div class ='h-full flex-1 flex-col flex bg-white w-full overflow-hidden'>
         <div class="w-full px-6 py-4 flex-1 overflow-y-scroll">
+            <loader v-show="isLoading" object="#52796f" color1="#ffffff" color2="#fa0000" size="3" speed="1" bg="#000000" objectbg="#ffffff" opacity="95" name="spinning"></loader>
             <div class="w-full">
                 <div v-show="success" class="bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8" role="alert">
                     <strong class="font-bold">Успешно!</strong>
@@ -14,60 +15,62 @@
                 </div>
 
                 <!-- Change name block -->
-                <form @submit="updateUserInfo(data.name)" class="flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2">
+                <form @submit="updateName" class="flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2">
                     <div class="w-full px-3 mb-6 md:mb-0">
+
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-name">
                             Имя
                         </label>
                         
-                        <input class="appearance-none block w-full bg-white text-gray-700 border border-red rounded py-3 px-4 leading-tight focus:outline-none" id="grid-name" type="text" :placeholder="[[ user.name ]]" v-model='data.name'>
-                        <p class="text-red text-xs italic">Ошибка</p>
-                        <input type="submit" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded">       
+                        <!-- TO DO border-red -->
+                        <input class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none" id="grid-name" type="text" v-model='name'>
+                        <p v-if="errors && errors.name" class="text-red text-xs italic">{{ errors.name[0] }}</p>
+
+                        <input  type="submit" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded"> 
                     </div>
                 </form>
 
-                <!-- Change email block -->
-                <form @submit="updateUserInfo(data.email)" class="flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2">
+                <!-- Change mail block -->
+                <form class="flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2">
+                    
                     <div class="w-full px-3">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-email">
                             Почта
                         </label>
         
-                        <input v-model="data.email" class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500" id="grid-email" type="email" :placeholder="[[ user.email ]]">
-                        <p class="text-red text-xs italic">Ошибка</p>
+                        <input v-model="email" class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500" id="grid-email" type="email">
+                        <p v-if="errors && errors.email" class="text-red text-xs italic">{{ errors.email[0] }}</p>
 
-                        <input type="submit" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded">
+                        <input @click="updateEmail" type="button" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded"> 
                     </div>
                 </form>
-
                 <!-- Change password block -->
-                <form @submit="updateUserInfo(data.passwords)" class="flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2">
+                <form class="flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2">
                     <div class="w-full px-3">
                         <!-- Old password -->
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-old-password">
                             Старый пароль
                         </label>
                         
-                        <input v-model='data.passwords.old_password' name="old_password" class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:border-gray-500" id="grid-old-password" type="password">
-                        <p class="text-red text-xs italic mb-2">Ошибка</p>
+                        <input v-model='old_password' name="old_password" class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:border-gray-500" id="grid-old-password" type="password">
+                        <p v-if="errors && errors.old_password" class="text-red text-xs italic">{{ errors.old_password[0] }}</p>
 
                         <!-- New password -->
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                             Новый пароль
                         </label>
                         
-                        <input v-model='data.passwords.password' name="password" class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password">
-                        <p class="text-red text-xs italic mb-2">Ошибка</p>
+                        <input v-model='password' name="password" class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password">
+                        <p v-if="errors && errors.password" class="text-red text-xs italic">{{ errors.password[0] }}</p>
 
                         <!-- Confirm password -->
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password-confirmation">
                             Повторите пароль
                         </label>
                         
-                        <input v-model='data.passwords.password_confirmation' name="password_confirmation" class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password-confirmation" type="password">
-                        <p class="text-red text-xs italic mb-2">Ошибка</p>
+                        <input v-model='password_confirmation' name="password_confirmation" class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password-confirmation" type="password">
 
-                        <input type="submit" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded">
+                        <input @click="updatePassword" type="button" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded">
                     </div>
                 </form>
             </div>
@@ -80,24 +83,68 @@
 
         data: function() {
             return {
-                data: {
-                    name: '',
-                    email: '',
-                    passwords: {
-                        old_password: '',
-                        password: '',
-                        password_confirmation: '',
-                    }
-                },  
+                name: this.user.name,
+                email: this.user.email,
+                old_password: '',
+                password: '',
+                password_confirmation: '',                  
                 errors: {},
                 success: false,
+                isLoading: false,
             } 
         },
 
+
         methods: {
-            updateUserInfo: function(data) {
-                console.log(data)
-            },
+            updateName: function() {
+                axios.patch('api/v1/update/name', {
+                    'token': localStorage.getItem('token'),
+                    'name': this.name
+                })
+                .then(() => {
+                    this.success = true;
+                }).catch(error => {
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                })
+             },
+
+            updateEmail: function() {
+                this.isLoading = true;
+                axios.patch('api/v1/update/email', {
+                    'token': localStorage.getItem('token'),
+                    'email': this.email
+                })
+                .then(() => {
+                    this.success = true;
+                    this.isLoading = false;
+                }).catch(error => {
+                    this.isLoading = false;
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                })
+             },
+
+            updatePassword: function() {
+                this.isLoading = true;
+                axios.patch('api/v1/update/password', {
+                    'token': localStorage.getItem('token'),
+                    'password': this.password,
+                    'old_password': this.old_password,
+                    'password_confirmation': this.password_confirmation
+                })
+                .then(() => {
+                    this.success = true;
+                    this.isLoading = false;
+                }).catch(error => {
+                    this.isLoading = false;
+                    if (error.response.status == 422) {
+                        this.errors = error.response.data.errors;
+                    }
+                })
+             },
 
             dismissMessage: function() {
                 this.success = false;
