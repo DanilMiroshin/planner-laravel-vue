@@ -2237,7 +2237,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   data: function data() {
@@ -2256,12 +2255,17 @@ __webpack_require__.r(__webpack_exports__);
     updateName: function updateName() {
       var _this = this;
 
+      this.isLoading = true;
       axios.patch('api/v1/update/name', {
         'token': localStorage.getItem('token'),
         'name': this.name
       }).then(function () {
+        _this.isLoading = false;
         _this.success = true;
+        _this.errors = {};
       })["catch"](function (error) {
+        _this.isLoading = false;
+
         if (error.response.status == 422) {
           _this.errors = error.response.data.errors;
         }
@@ -2277,6 +2281,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function () {
         _this2.success = true;
         _this2.isLoading = false;
+        _this2.errors = {};
       })["catch"](function (error) {
         _this2.isLoading = false;
 
@@ -2297,6 +2302,10 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function () {
         _this3.success = true;
         _this3.isLoading = false;
+        _this3.errors = {};
+        _this3.password = '';
+        _this3.old_password = '';
+        _this3.password_confirmation = '';
       })["catch"](function (error) {
         _this3.isLoading = false;
 
@@ -22999,7 +23008,12 @@ var render = function() {
               "form",
               {
                 staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2",
-                on: { submit: _vm.updateName }
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.updateName($event)
+                  }
+                }
               },
               [
                 _c("div", { staticClass: "w-full px-3 mb-6 md:mb-0" }, [
@@ -23027,7 +23041,11 @@ var render = function() {
                       }
                     ],
                     staticClass:
-                      "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none",
+                      "appearance-none block w-full bg-white text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none",
+                    class: {
+                      "border-gray-200": !_vm.errors.name,
+                      "border-red": _vm.errors && _vm.errors.name
+                    },
                     attrs: { id: "grid-name", type: "text" },
                     domProps: { value: _vm.name },
                     on: {
@@ -23057,7 +23075,15 @@ var render = function() {
             _vm._v(" "),
             _c(
               "form",
-              { staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2" },
+              {
+                staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.updateEmail($event)
+                  }
+                }
+              },
               [
                 _c("div", { staticClass: "w-full px-3" }, [
                   _c(
@@ -23084,7 +23110,11 @@ var render = function() {
                       }
                     ],
                     staticClass:
-                      "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500",
+                      "appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500",
+                    class: {
+                      "border-gray-200": !_vm.errors.email,
+                      "border-red": _vm.errors && _vm.errors.email
+                    },
                     attrs: { id: "grid-email", type: "email" },
                     domProps: { value: _vm.email },
                     on: {
@@ -23106,8 +23136,7 @@ var render = function() {
                   _c("input", {
                     staticClass:
                       "bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded",
-                    attrs: { type: "button", value: "Изменить" },
-                    on: { click: _vm.updateEmail }
+                    attrs: { type: "submit", value: "Изменить" }
                   })
                 ])
               ]
@@ -23115,7 +23144,15 @@ var render = function() {
             _vm._v(" "),
             _c(
               "form",
-              { staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2" },
+              {
+                staticClass: "flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.updatePassword($event)
+                  }
+                }
+              },
               [
                 _c("div", { staticClass: "w-full px-3" }, [
                   _c(
@@ -23142,7 +23179,11 @@ var render = function() {
                       }
                     ],
                     staticClass:
-                      "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:border-gray-500",
+                      "appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:border-gray-500",
+                    class: {
+                      "border-gray-200": !_vm.errors.old_password,
+                      "border-red": _vm.errors && _vm.errors.old_password
+                    },
                     attrs: {
                       name: "old_password",
                       id: "grid-old-password",
@@ -23189,7 +23230,11 @@ var render = function() {
                       }
                     ],
                     staticClass:
-                      "appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
+                      "appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
+                    class: {
+                      "border-gray-200": !_vm.errors.password,
+                      "border-red": _vm.errors && _vm.errors.password
+                    },
                     attrs: {
                       name: "password",
                       id: "grid-password",
@@ -23256,8 +23301,7 @@ var render = function() {
                   _c("input", {
                     staticClass:
                       "bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded",
-                    attrs: { type: "button", value: "Изменить" },
-                    on: { click: _vm.updatePassword }
+                    attrs: { type: "submit", value: "Изменить" }
                   })
                 ])
               ]

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateEmailRequest;
-use Illuminate\Http\Response;
 
 class UpdateEmail extends Controller
 {
@@ -19,6 +18,9 @@ class UpdateEmail extends Controller
         request()->user()->update([
             'email' => $request->email
         ]);
-        return response(null, Response::HTTP_OK);
+
+        return response()->json([
+            'email' => request()->user()->email,
+        ]);
     }
 }

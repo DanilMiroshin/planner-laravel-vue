@@ -20,6 +20,7 @@ class UpdatePassword extends Controller
         request()->user()->update([
             'password' => Hash::make($request->password)
         ]);
-        return response(null, Response::HTTP_OK);
+
+        return response(null, 200);    
     }
 }

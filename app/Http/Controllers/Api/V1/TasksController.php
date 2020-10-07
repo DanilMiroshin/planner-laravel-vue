@@ -77,6 +77,7 @@ class TasksController extends Controller
         if ($task->user_id == request()->user()->id) {
             $task->delete();
         }
-        return response(null, Response::HTTP_OK);
+        
+        return response()->json(null);
     }
 }

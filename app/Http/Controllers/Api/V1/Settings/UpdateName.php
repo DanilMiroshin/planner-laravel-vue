@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateNameRequest;
-use Illuminate\Http\Response;
 
 class UpdateName extends Controller
 {
@@ -19,6 +18,9 @@ class UpdateName extends Controller
         request()->user()->update([
             'name' => $request->name
         ]);
-        return response(null, Response::HTTP_OK);
+
+        return response()->json([
+            'name' => request()->user()->name,
+        ]);
     }
 }
