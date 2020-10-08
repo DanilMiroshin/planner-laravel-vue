@@ -45,5 +45,9 @@ export default {
                 'description': task.description
             })
         },
+
+        async toggleTask( {_}, task_id) {
+            return await axios.patch('api/v1/tasks/toggle/' + task_id)
+        },
     }
 }

@@ -80,4 +80,20 @@ class TasksController extends Controller
         
         return response()->json(null);
     }
+
+    /**
+     * Toggle completed property of task.
+     *
+     * @param  App\Task $task
+     * @return \Illuminate\Http\Response
+     */
+    public function toggle(Task $task)
+    {
+        if ($task->user_id == request()->user()->id) {
+            $task->completed = !$task->completed;
+            $task->update();
+        }
+        
+        return TaskResource::make($task);
+    }
 }

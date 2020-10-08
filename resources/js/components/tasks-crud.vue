@@ -1,7 +1,9 @@
 <template>
     <div class ='h-full flex-1 flex-col flex bg-white w-full overflow-hidden'>
         <div class="px-6 py-4 flex-1 overflow-y-scroll">
+
             <loader v-show="isLoading" object="#52796f" color1="#ffffff" color2="#fa0000" size="3" speed="1" bg="#000000" objectbg="#ffffff" opacity="95" name="spinning"></loader>
+
             <!-- Successs message -->
             <div v-show="success" class="bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8" role="alert">
                 <strong class="font-bold">Успешно!</strong>
@@ -16,9 +18,12 @@
             <!-- Task -->
             <div class="flex items-start mb-4" v-for='task in tasks'>
                 <div class="flex-1 overflow-hidden">
-                    <div class="flex rounded-lg border-2 border-hookers-green overflow-hidden">
+                    <div
+                    v-bind:class="{ 'bg-white': !task.completed, 'bg-gray-200': task.completed }"
+                    class="flex rounded-lg border-2 border-hookers-green overflow-hidden">
                         <!-- Complete button -->
-                        <!-- <button class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
+                        <button v-on:click="completeTask(task.id)"
+                        class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
                             <svg class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <title>Выполнить</title>
                                 <path
@@ -28,9 +33,12 @@
                                     d="M5 13l4 4L19 7"
                                 />
                             </svg>
-                        </button> -->
+                        </button>
                         <!-- Edit button -->
-                        <button v-on:click="showModal(task)" class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
+                        <button
+                        v-bind:class="{ 'hidden': task.completed }"
+                        v-on:click="showModal(task)"
+                        class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
                             <svg class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <title>Изменить</title>
                                 <path
@@ -53,7 +61,8 @@
                                 />
                             </svg>
                         </button>
-                        <span class="font-sans text-xl align-middle w-full px-4 py-3">
+                        <span v-bind:class="{ 'line-through': task.completed }"
+                        class="font-sans text-lg align-middle w-full px-4 py-3">
                             {{ task.description }}
                         </span>
                     </div>
@@ -64,19 +73,21 @@
         <div class="pb-6 px-4 flex-none">
             <!-- Error message -->
             <p class="text-red text-xs italic" v-if="errors && errors.description">{{ errors.description[0] }}</p>
-            <div class="flex rounded-lg border-2 border-grey overflow-hidden">
-                <button v-on:click="createTask" class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
+            <form @submit.prevent="createTask"
+                v-bind:class="{ 'border-grey': !errors.description, 'border-red': errors.description }"
+                class="flex rounded-lg border-2 overflow-hidden">
+                <button type="submit" class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
                     <svg class="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"/></svg>
                 </button>
-                <input type="text" name="description" class="w-full px-4" v-model='task.description' placeholder="Добавьте задачу" autofocus required />               
-            </div>
+                <input type="text" name="description" class="w-full px-4" v-model='task.description' placeholder="Добавьте задачу" autofocus required />
+            </form>
         </div>
         <!-- Background overlay -->
         <div v-show="overlay" class="fixed inset-0 transition-opacity">
             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
         <!-- Modal -->
-        <div v-show="modalShown" class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">  
+        <div v-show="modalShown" class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">
             <div class="bg-gray rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
@@ -145,11 +156,12 @@
                 makeTask: 'tasks/makeTask',
                 destroyTask: 'tasks/destroyTask',
                 updateTask: 'tasks/updateTask',
+                toggleTask: 'tasks/toggleTask',
             }),
 
             hideModal() {
                 this.modalShown = false;
-                this.overlay = false;   
+                this.overlay = false;
             },
             showModal(task) {
                 this.selectedTask = task;
@@ -165,18 +177,18 @@
             loadTasks: function () {
                 this.getTasks()
                     .then(() => {
-                        this.isLoading = false; 
+                        this.isLoading = false;
                     })
             },
             createTask: function () {
                 this.makeTask(this.task)
                     .then(() => {
                         this.isLoading = true;
-                        this.loadTasks(); 
-                        this.task = {};                      
+                        this.loadTasks();
+                        this.task = {};
                         this.message = 'Задача добавлена';
                         this.success = true;
-                        this.errors = {}; 
+                        this.errors = {};
                     })
                     .catch(error => {
                         if (error.response.status == 422) {
@@ -189,30 +201,40 @@
                     this.destroyTask(id)
                         .then((response) => {
                             this.isLoading = true;
-                            this.success = false; 
-                            this.loadTasks();                          
+                            this.success = false;
+                            this.loadTasks();
                             this.message = 'Задача удаленна';
-                            this.success = true;                                               
+                            this.success = true;
                         })
                         .catch(error => {
                             console.log(error);
                         });
-                } 
+                }
             },
-            editTask: function() {        
+            editTask: function() {
                 this.updateTask(this.selectedTask)
                     .then((response) => {
                         this.isLoading = true;
                         this.loadTasks();
                         this.hideModal();
-                        this.selectedTask = {};                          
+                        this.selectedTask = {};
                         this.message = 'Задача изменена';
-                        this.success = true;                                             
+                        this.success = true;
                     })
                     .catch(error => {
                         console.log(error);
                     });
-            }
+            },
+            completeTask: function(id) {
+                this.toggleTask(id)
+                    .then((response) => {
+                        this.loadTasks();
+                        this.success = false;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
         }
     }
 </script>

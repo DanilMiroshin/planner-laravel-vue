@@ -1980,6 +1980,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1999,6 +2005,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.login(this.user).then(function () {
+        _this.errors = {};
+
         _this.$router.replace({
           name: 'main-page'
         });
@@ -2121,6 +2129,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2138,6 +2152,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('api/v1/auth/register', this.user).then(function () {
+        _this.errors = {};
+
         _this.$router.push('login');
       })["catch"](function (error) {
         if (error.response.status == 422) {
@@ -2513,6 +2529,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -2538,7 +2565,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getTasks: 'tasks/loadTasks',
     makeTask: 'tasks/makeTask',
     destroyTask: 'tasks/destroyTask',
-    updateTask: 'tasks/updateTask'
+    updateTask: 'tasks/updateTask',
+    toggleTask: 'tasks/toggleTask'
   })), {}, {
     hideModal: function hideModal() {
       this.modalShown = false;
@@ -2607,6 +2635,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this4.selectedTask = {};
         _this4.message = 'Задача изменена';
         _this4.success = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    completeTask: function completeTask(id) {
+      var _this5 = this;
+
+      this.toggleTask(id).then(function (response) {
+        _this5.loadTasks();
+
+        _this5.success = false;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -22434,104 +22473,124 @@ var render = function() {
           [
             _c("p", { staticClass: "text-center text-3xl" }, [_vm._v("Вход")]),
             _vm._v(" "),
-            _c("form", { staticClass: "flex flex-col pt-3 md:pt-8" }, [
-              _vm.errors && _vm.error_message
-                ? _c(
-                    "div",
-                    {
-                      staticClass:
-                        "bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative",
-                      attrs: { role: "alert" }
+            _c(
+              "form",
+              {
+                staticClass: "flex flex-col pt-3 md:pt-8",
+                attrs: { method: "POST" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.submit($event)
+                  }
+                }
+              },
+              [
+                _vm.errors && _vm.error_message
+                  ? _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _c("span", { staticClass: "block sm:inline" }, [
+                          _vm._v("Почта или пароль не верны.")
+                        ])
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex flex-col pt-4" }, [
+                  _c(
+                    "label",
+                    { staticClass: "text-lg", attrs: { for: "email" } },
+                    [_vm._v("Почта")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.email,
+                        expression: "user.email"
+                      }
+                    ],
+                    staticClass:
+                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+                    class: {
+                      "border-gray-200": !_vm.errors.email,
+                      "border-red": _vm.errors.email
                     },
-                    [
-                      _c("span", { staticClass: "block sm:inline" }, [
-                        _vm._v("Почта или пароль не верны.")
-                      ])
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "flex flex-col pt-4" }, [
-                _c(
-                  "label",
-                  { staticClass: "text-lg", attrs: { for: "email" } },
-                  [_vm._v("Почта")]
-                ),
+                    attrs: { type: "email", name: "email", autofocus: "" },
+                    domProps: { value: _vm.user.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.user, "email", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.email
+                  ? _c("p", { staticClass: "text-red text-xs italic" }, [
+                      _vm._v(_vm._s(_vm.errors.email[0]))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex flex-col pt-4" }, [
+                  _c(
+                    "label",
+                    { staticClass: "text-lg", attrs: { for: "password" } },
+                    [_vm._v("Пароль")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.password,
+                        expression: "user.password"
+                      }
+                    ],
+                    staticClass:
+                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+                    class: {
+                      "border-gray-200": !_vm.errors.password,
+                      "border-red": _vm.errors.password
+                    },
+                    attrs: { type: "password", name: "password" },
+                    domProps: { value: _vm.user.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.user, "password", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.password
+                  ? _c("p", { staticClass: "text-red text-xs italic" }, [
+                      _vm._v(_vm._s(_vm.errors.password[0]))
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.email,
-                      expression: "user.email"
-                    }
-                  ],
                   staticClass:
-                    "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                  attrs: { type: "email", name: "email" },
-                  domProps: { value: _vm.user.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "email", $event.target.value)
-                    }
-                  }
+                    "bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8",
+                  attrs: { type: "submit", value: "Вход" }
                 })
-              ]),
-              _vm._v(" "),
-              _vm.errors && _vm.errors.email
-                ? _c("p", { staticClass: "text-red text-xs italic" }, [
-                    _vm._v(_vm._s(_vm.errors.email[0]))
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "flex flex-col pt-4" }, [
-                _c(
-                  "label",
-                  { staticClass: "text-lg", attrs: { for: "password" } },
-                  [_vm._v("Пароль")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.password,
-                      expression: "user.password"
-                    }
-                  ],
-                  staticClass:
-                    "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                  attrs: { type: "password", name: "password" },
-                  domProps: { value: _vm.user.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "password", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.errors && _vm.errors.password
-                ? _c("p", { staticClass: "text-red text-xs italic" }, [
-                    _vm._v(_vm._s(_vm.errors.password[0]))
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("input", {
-                staticClass:
-                  "bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8",
-                attrs: { type: "button", value: "Вход" },
-                on: { click: _vm.submit }
-              })
-            ]),
+              ]
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "text-center pt-12 pb-12" }, [
               _c(
@@ -22684,175 +22743,194 @@ var render = function() {
     _c("div", { staticClass: "w-full flex flex-wrap" }, [
       _c("div", { staticClass: "w-full md:w-1/2 flex flex-col" }, [
         _c(
-          "form",
+          "div",
           {
             staticClass:
-              "flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32",
-            attrs: { method: "POST" }
+              "flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32"
           },
           [
             _c("p", { staticClass: "text-center text-3xl" }, [
               _vm._v("Регистрация")
             ]),
             _vm._v(" "),
-            _c("form", { staticClass: "flex flex-col pt-3 md:pt-8" }, [
-              _c("div", { staticClass: "flex flex-col pt-4" }, [
-                _c(
-                  "label",
-                  { staticClass: "text-lg", attrs: { for: "email" } },
-                  [_vm._v("Почта")]
-                ),
+            _c(
+              "form",
+              {
+                staticClass: "flex flex-col pt-3 md:pt-8",
+                attrs: { method: "POST" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.submit($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "flex flex-col pt-4" }, [
+                  _c(
+                    "label",
+                    { staticClass: "text-lg", attrs: { for: "email" } },
+                    [_vm._v("Почта")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.email,
+                        expression: "user.email"
+                      }
+                    ],
+                    staticClass:
+                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+                    class: {
+                      "border-gray-200": !_vm.errors.email,
+                      "border-red": _vm.errors.email
+                    },
+                    attrs: { type: "email", name: "email", autofocus: "" },
+                    domProps: { value: _vm.user.email },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.user, "email", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.email
+                  ? _c("p", { staticClass: "text-red text-xs italic" }, [
+                      _vm._v(_vm._s(_vm.errors.email[0]))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex flex-col pt-4" }, [
+                  _c(
+                    "label",
+                    { staticClass: "text-lg", attrs: { for: "name" } },
+                    [_vm._v("Имя")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.name,
+                        expression: "user.name"
+                      }
+                    ],
+                    staticClass:
+                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+                    class: {
+                      "border-gray-200": !_vm.errors.name,
+                      "border-red": _vm.errors.name
+                    },
+                    attrs: { type: "text", name: "name" },
+                    domProps: { value: _vm.user.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.user, "name", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.name
+                  ? _c("p", { staticClass: "text-red text-xs italic" }, [
+                      _vm._v(_vm._s(_vm.errors.name[0]))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex flex-col pt-4" }, [
+                  _c(
+                    "label",
+                    { staticClass: "text-lg", attrs: { for: "password" } },
+                    [_vm._v("Пароль")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.password,
+                        expression: "user.password"
+                      }
+                    ],
+                    staticClass:
+                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+                    class: {
+                      "border-gray-200": !_vm.errors.password,
+                      "border-red": _vm.errors.password
+                    },
+                    attrs: { type: "password", name: "password" },
+                    domProps: { value: _vm.user.password },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.user, "password", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm.errors && _vm.errors.password
+                  ? _c("p", { staticClass: "text-red text-xs italic" }, [
+                      _vm._v(_vm._s(_vm.errors.password[0]))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex flex-col pt-4" }, [
+                  _c(
+                    "label",
+                    { staticClass: "text-lg", attrs: { for: "password" } },
+                    [_vm._v("Повторите пароль")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.password_confirmation,
+                        expression: "user.password_confirmation"
+                      }
+                    ],
+                    staticClass:
+                      "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
+                    attrs: { type: "password", name: "password_confirmation" },
+                    domProps: { value: _vm.user.password_confirmation },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.user,
+                          "password_confirmation",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
                 _vm._v(" "),
                 _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.email,
-                      expression: "user.email"
-                    }
-                  ],
                   staticClass:
-                    "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                  attrs: { type: "email", name: "email", required: "" },
-                  domProps: { value: _vm.user.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "email", $event.target.value)
-                    }
-                  }
+                    "bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8",
+                  attrs: { type: "submit", value: "Присоединиться" }
                 })
-              ]),
-              _vm._v(" "),
-              _vm.errors && _vm.errors.email
-                ? _c("p", { staticClass: "text-red text-xs italic" }, [
-                    _vm._v(_vm._s(_vm.errors.email[0]))
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "flex flex-col pt-4" }, [
-                _c(
-                  "label",
-                  { staticClass: "text-lg", attrs: { for: "name" } },
-                  [_vm._v("Имя")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.name,
-                      expression: "user.name"
-                    }
-                  ],
-                  staticClass:
-                    "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                  attrs: { type: "text", name: "name", required: "" },
-                  domProps: { value: _vm.user.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "name", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.errors && _vm.errors.name
-                ? _c("p", { staticClass: "text-red text-xs italic" }, [
-                    _vm._v(_vm._s(_vm.errors.name[0]))
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "flex flex-col pt-4" }, [
-                _c(
-                  "label",
-                  { staticClass: "text-lg", attrs: { for: "password" } },
-                  [_vm._v("Пароль")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.password,
-                      expression: "user.password"
-                    }
-                  ],
-                  staticClass:
-                    "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                  attrs: { type: "password", name: "password", required: "" },
-                  domProps: { value: _vm.user.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.user, "password", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.errors && _vm.errors.password
-                ? _c("p", { staticClass: "text-red text-xs italic" }, [
-                    _vm._v(_vm._s(_vm.errors.password[0]))
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "flex flex-col pt-4" }, [
-                _c(
-                  "label",
-                  { staticClass: "text-lg", attrs: { for: "password" } },
-                  [_vm._v("Повторите пароль")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.user.password_confirmation,
-                      expression: "user.password_confirmation"
-                    }
-                  ],
-                  staticClass:
-                    "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline",
-                  attrs: {
-                    type: "password",
-                    name: "password_confirmation",
-                    required: ""
-                  },
-                  domProps: { value: _vm.user.password_confirmation },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.user,
-                        "password_confirmation",
-                        $event.target.value
-                      )
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                staticClass:
-                  "bg-hookers-green cursor-pointer text-white font-bold text-lg hover:bg-dark-slate-gray p-2 mt-8",
-                attrs: { type: "button", value: "Присоединиться" },
-                on: { click: _vm.submit }
-              })
-            ]),
+              ]
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "text-center pt-12 pb-12" }, [
               _c(
@@ -23518,7 +23596,11 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "flex rounded-lg border-2 border-hookers-green overflow-hidden"
+                      "flex rounded-lg border-2 border-hookers-green overflow-hidden",
+                    class: {
+                      "bg-white": !task.completed,
+                      "bg-gray-200": task.completed
+                    }
                   },
                   [
                     _c(
@@ -23526,6 +23608,45 @@ var render = function() {
                       {
                         staticClass:
                           "text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green",
+                        on: {
+                          click: function($event) {
+                            return _vm.completeTask(task.id)
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "h-6 w-6 text-gray-500",
+                            attrs: {
+                              fill: "none",
+                              viewBox: "0 0 24 24",
+                              stroke: "currentColor"
+                            }
+                          },
+                          [
+                            _c("title", [_vm._v("Выполнить")]),
+                            _vm._v(" "),
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "2",
+                                d: "M5 13l4 4L19 7"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green",
+                        class: { hidden: task.completed },
                         on: {
                           click: function($event) {
                             return _vm.showModal(task)
@@ -23603,7 +23724,8 @@ var render = function() {
                       "span",
                       {
                         staticClass:
-                          "font-sans text-xl align-middle w-full px-4 py-3"
+                          "font-sans text-lg align-middle w-full px-4 py-3",
+                        class: { "line-through": task.completed }
                       },
                       [
                         _vm._v(
@@ -23630,9 +23752,19 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c(
-          "div",
+          "form",
           {
-            staticClass: "flex rounded-lg border-2 border-grey overflow-hidden"
+            staticClass: "flex rounded-lg border-2 overflow-hidden",
+            class: {
+              "border-grey": !_vm.errors.description,
+              "border-red": _vm.errors.description
+            },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.createTask($event)
+              }
+            }
           },
           [
             _c(
@@ -23640,7 +23772,7 @@ var render = function() {
               {
                 staticClass:
                   "text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green",
-                on: { click: _vm.createTask }
+                attrs: { type: "submit" }
               },
               [
                 _c(
@@ -41894,6 +42026,7 @@ _store__WEBPACK_IMPORTED_MODULE_1__["default"].subscribeAction(function (action,
     case 'tasks/makeTask':
     case 'tasks/destroyTask':
     case 'tasks/updateTask':
+    case 'tasks/toggleTask':
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('token');
       break;
   }
@@ -42037,6 +42170,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee4);
+      }))();
+    },
+    toggleTask: function toggleTask(_ref5, task_id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var _;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _ = _ref5._;
+                _context5.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.patch('api/v1/tasks/toggle/' + task_id);
+
+              case 3:
+                return _context5.abrupt("return", _context5.sent);
+
+              case 4:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
       }))();
     }
   }

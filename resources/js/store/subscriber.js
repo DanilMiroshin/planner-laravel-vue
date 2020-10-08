@@ -7,6 +7,7 @@ store.subscribeAction((action, state) => {
         case 'tasks/makeTask': 
         case 'tasks/destroyTask': 
         case 'tasks/updateTask':
+        case 'tasks/toggleTask':
             axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('token')
         break;
     }

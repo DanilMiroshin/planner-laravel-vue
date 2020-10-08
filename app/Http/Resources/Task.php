@@ -15,9 +15,10 @@ class Task extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'description' => $this->description,
+            'id'            => $this->id,
+            'user_id'       => $this->user_id,
+            'description'   => $this->description,
+            'completed'     => $this->completed == NULL ? false : true,
         ];
     }
 }
