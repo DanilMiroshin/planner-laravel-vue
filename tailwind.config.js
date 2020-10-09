@@ -1,7 +1,8 @@
 module.exports = {
     purge: [
-        './resources/views/**/*.blade.php',
-        './resources/css/**/*.css',
+        './app/**/*.php',
+        './resources/**/*.php',
+        './resources/js/components/**/*.vue',
     ],
     theme: {
         colors: {
