@@ -8,6 +8,7 @@ Planner - app that helps you organize your tasks
 * [Vuex](http://vuex.vuejs.org)
 * [Axios](https://github.com/mzabriskie/axios)
 * [Authentication with JWT Token](https://github.com/tymondesigns/jwt-auth)
+* [Tailwind CSS](https://tailwindcss.com)
 
 ## Screenshots
 ![Main page](https://github.com/DanilMiroshin/planner-laravel-vue/blob/master/1.jpg)
