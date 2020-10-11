@@ -2,7 +2,7 @@
     <div class="h-12 border-b grid grid-cols-2 gap-4 justify-items-stretch">
         <div class='pl-6 flex justify-self-start items-center'>
             <h3 class="text-grey-darkest font-extrabold">
-                #Сегодня
+                Все задачи
             </h3>
         </div>
         <div class='pr-12 flex justify-self-end items-center'>
