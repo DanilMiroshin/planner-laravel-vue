@@ -27,6 +27,8 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
         Route::post('register', 'RegisterController')->name('register');
     });
     Route::patch('tasks/toggle/{task}', 'TasksController@toggle')->name('tasks.toggle');
-    Route::resource('tasks', 'TasksController', ['except' => ['create', 'edit']]);
+    Route::resource('tasks', 'TasksController', ['except' => ['show', 'create', 'edit']]);
+
+    Route::resource('category', 'CategoriesController', ['except' => ['create', 'edit']]);
 });
 
