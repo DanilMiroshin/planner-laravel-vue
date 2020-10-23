@@ -16,13 +16,20 @@ class TasksController extends Controller
         $this->middleware('auth:api');
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of the tasks.
+     * If category_id equal null return all tasks,
+     * else return tasks for category
      *
      * @return App\Http\Resources\Task
      */
     public function index()
     {
-        return TaskResource::collection(request()->user()->tasks);
+        $user = request()->user();
+        return TaskResource::collection(
+            request()->category_id == null
+            ? $user->tasks
+            : $user->tasks->where('category_id', request()->category_id)
+        );
     }
 
     /**

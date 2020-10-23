@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="mb-8 text-gray-400">
-            <div class="px-4 mb-2  flex justify-between items-center">
+            <div class="px-4 mb-2 flex justify-between items-center">
                 <div class="opacity-75 cursor-default">Задачи</div>
                 <!-- Button to toggle form -->
                 <button v-on:click="formShown = !formShown" class="text cursor-pointer hover:text-hookers-green">
@@ -37,11 +37,11 @@
                 </button>
             </div>
 
-            <!-- Form for adding categorie -->
-            <p class="px-4 mb-2 text-red text-xs italic">Test error message</p>
+            <!-- Form for adding category -->
+            <p class="px-4 mb-2 text-red text-xs italic"  v-if="errors && errors.name">{{ errors.name[0] }}</p>
             <form v-if='formShown' class="px-4 mb-2 flex justify-between items-center">
-                <input v-model="categorie" class="text-base text-gray-900 text-grey rounded-lg border-2 border-hookers-green" type="text" name="categorie">
-                <button id="addCategorie" v-on:click="addCategorie()" class="hover:text-hookers-green text cursor-pointer">
+                <input v-model="category.name" class="text-base text-gray-900 text-grey rounded-lg border-2 border-hookers-green" type="text">
+                <button type="button" id="addCategory" v-on:click="addCategory()" class="hover:text-hookers-green text cursor-pointer">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
@@ -49,30 +49,109 @@
             </form>
 
             <div class="flex flex-col">
-                <div class="cursor-pointer m-1 bg-hookers-green py-1 px-4 text-white pb-2">
-                    <router-link to='/'>
+                <div v-on:click="sendCategory()" class="cursor-pointer m-1 hover:bg-dark-slate-gray bg-hookers-green py-1 px-4 text-white pb-2">
+                    <router-link  to='/'>
                         Все задачи
                     </router-link>
+                </div>
+
+                <!-- Categories -->
+                <div v-for='category in categories' v-on:click="sendCategory(category)" class="cursor-pointer m-1 hover:bg-dark-slate-gray py-1 px-4 text-white pb-2 flex justify-between items-center">
+                    <span>
+                        {{ category.name }}
+                    </span>
+                    <!-- Delete button -->
+                    <button v-on:click="deleteCategory(category.id)" class="text-gray-400 cursor-pointer hover:text-hookers-green">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import { mapGetters, mapActions } from 'vuex'
+
     export default {
         props: ['user'],
 
         data : function() {
             return {
+                categories: [],
                 formShown: false,
-                categorie: '',
+                category: {},
+                errors: {},
             }
         },
 
+        mounted() {
+            this.loadCategories();
+        },
+
         methods: {
-            addCategorie() {
-                alert(this.categorie);
+            ...mapActions({
+                getCategories: 'categories/loadCategories',
+                makeCategory: 'categories/makeCategory',
+                destroyCategory: 'categories/destroyCategory'
+            }),
+
+            loadCategories: function () {
+                this.getCategories()
+                    .then((response) => {
+                        this.categories = response.data.data;
+                    })
+            },
+
+            addCategory: function () {
+                this.makeCategory(this.category)
+                    .then(() => {
+                        this.loadCategories();
+                        this.category = {};
+                        this.errors = {};
+                    })
+                    .catch(error => {
+                        if (error.response.status == 422) {
+                            this.errors = error.response.data.errors;
+                        }
+                    });
+            },
+
+            deleteCategory: function (id) {
+                if (confirm('Вы уверены?')) {
+                    this.destroyCategory(id)
+                        .then((response) => {
+                            this.loadCategories();
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
+            },
+
+            sendCategory: function (category = '') {
+                this.$emit('clicked', category);
             }
+/*            editTask: function() {
+                this.updateTask(this.selectedTask)
+                    .then((response) => {
+                        this.isLoading = true;
+                        this.loadTasks();
+                        this.hideModal();
+                        this.selectedTask = {};
+                        this.message = 'Задача изменена';
+                        this.success = true;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }*/
         }
     }
 </script>

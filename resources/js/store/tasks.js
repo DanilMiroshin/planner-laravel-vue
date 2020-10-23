@@ -3,31 +3,9 @@ import axios from 'axios'
 export default {
     namespaced: true,
 
-    state: {
-        tasks: []
-    },
-
-    getters: {
-        getTasks (state) {
-            return state.tasks
-        }
-    },
-
-    mutations: {
-        set_tasks (state, tasks) {
-            state.tasks = tasks
-        }
-    },
-
     actions: {
-        async loadTasks ( { commit } ) {
-            try {
-                let response = await axios.get('api/v1/tasks')
-
-                return commit('set_tasks', response.data.data)
-            } catch(e) {
-                return commit('set_tasks', null) 
-            }
+        async loadTasks ( {_}, category_id) {
+            return await axios.get('api/v1/tasks?category_id=' + category_id)
         },
 
         async makeTask( {_}, task) {

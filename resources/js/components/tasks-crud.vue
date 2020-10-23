@@ -1,7 +1,6 @@
 <template>
     <div class ='h-full flex-1 flex-col flex bg-white w-full overflow-hidden'>
         <div class="px-6 py-4 flex-1 overflow-y-scroll">
-
             <loader v-show="isLoading" object="#52796f" color1="#ffffff" color2="#fa0000" size="3" speed="1" bg="#000000" objectbg="#ffffff" opacity="95" name="spinning"></loader>
 
             <!-- Successs message -->
@@ -139,13 +138,12 @@
     import { mapGetters, mapActions } from 'vuex'
 
     export default {
-        computed: {
-            ...mapGetters ({
-                tasks: 'tasks/getTasks'
-            })
-        },
+
+        props: ['category_id'],
+
         data : function() {
             return {
+                tasks: [],
                 isLoading: true,
                 task: {},
                 selectedTask: {},
@@ -156,10 +154,19 @@
                 modalShown: false
             }
         },
+
+        watch: {
+            category_id: function (newCategoryId) {
+                this.isLoading = true;
+                this.loadTasks(newCategoryId);
+            }
+        },
+
         mounted() {
             this.loadTasks();
             this.overlay = false;
         },
+
         methods: {
             ...mapActions({
                 getTasks: 'tasks/loadTasks',
@@ -173,6 +180,7 @@
                 this.modalShown = false;
                 this.overlay = false;
             },
+
             showModal(task) {
                 this.selectedTask = task;
                 this.overlay = true;
@@ -183,13 +191,14 @@
                 this.success = false;
             },
 
-
-            loadTasks: function () {
-                this.getTasks()
-                    .then(() => {
+            loadTasks: function (category_id = '') {
+                this.getTasks(category_id)
+                    .then((response) => {
+                        this.tasks = response.data.data;
                         this.isLoading = false;
                     })
             },
+
             createTask: function () {
                 this.makeTask(this.task)
                     .then(() => {
@@ -206,6 +215,7 @@
                         }
                     });
             },
+
             deleteTask: function(id) {
                 if (confirm('Вы уверены?')) {
                     this.destroyTask(id)
@@ -221,6 +231,7 @@
                         });
                 }
             },
+
             editTask: function() {
                 this.updateTask(this.selectedTask)
                     .then((response) => {
@@ -235,6 +246,7 @@
                         console.log(error);
                     });
             },
+
             completeTask: function(id) {
                 this.toggleTask(id)
                     .then((response) => {

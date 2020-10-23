@@ -42,18 +42,6 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return App\Http\Resources\TaskResource $tasks
-     */
-    public function show($id)
-    {
-        $tasks = request()->user()->tasks->where('category_id', $id);
-        return TaskResource::collection($tasks);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  App\Category $category
