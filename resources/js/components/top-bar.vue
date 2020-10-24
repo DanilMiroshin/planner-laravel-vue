@@ -2,7 +2,7 @@
     <div class="h-12 border-b grid grid-cols-2 gap-4 justify-items-stretch">
         <div class='pl-6 flex justify-self-start items-center'>
             <h3 class="text-grey-darkest font-extrabold">
-                Все задачи
+                {{ category_name }}
             </h3>
         </div>
         <div class='pr-12 flex justify-self-end items-center'>
@@ -19,6 +19,8 @@
     import { mapActions } from 'vuex'
 
     export default {
+        props: ['category_name'],
+
         methods: {
             ...mapActions({
                 signoutAction: 'auth/signOut'

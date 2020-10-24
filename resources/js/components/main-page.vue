@@ -6,7 +6,7 @@
 
             <!-- Main content -->
             <div class="flex-1 flex flex-col bg-white">
-                <TopBar></TopBar>
+                <TopBar :category_name = "category_name"></TopBar>
                  <!-- Tasks-crud or settings -->
                 <router-view :user = "user" :category_id = "category_id"></router-view>
             </div>
@@ -33,14 +33,16 @@
         data : function() {
             return {
                 category_id: null,
-                category_name: 'Все задачи'
+                category_name: 'Все задачи',
             }
         },
 
         methods: {
-            getCategory (value) {
+            getCategory(value) {
                 this.category_id = value.id;
-                this.category_name = value.name;
+                this.category_name = value.name == null
+                ? 'Все задачи'
+                : value.name;
             }
         }
     }
