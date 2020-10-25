@@ -2,7 +2,6 @@
     <div class ='h-full flex-1 flex-col flex bg-white w-full overflow-hidden'>
         <div class="px-6 py-4 flex-1 overflow-y-scroll">
             <loader v-show="isLoading" object="#52796f" color1="#ffffff" color2="#fa0000" size="3" speed="1" bg="#000000" objectbg="#ffffff" opacity="95" name="spinning"></loader>
-
             <!-- Successs message -->
             <div v-show="success" class="bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8" role="alert">
                 <strong class="font-bold">Успешно!</strong>
@@ -151,7 +150,7 @@
                 errors: {},
                 message: '',
                 overlay: true,
-                modalShown: false
+                modalShown: false,
             }
         },
 
@@ -163,7 +162,7 @@
         },
 
         mounted() {
-            this.loadTasks();
+            this.loadTasks(this.category_id);
             this.overlay = false;
         },
 
@@ -200,10 +199,11 @@
             },
 
             createTask: function () {
+                this.task.category_id = this.category_id;
                 this.makeTask(this.task)
                     .then(() => {
                         this.isLoading = true;
-                        this.loadTasks();
+                        this.loadTasks(this.category_id);
                         this.task = {};
                         this.message = 'Задача добавлена';
                         this.success = true;
@@ -222,7 +222,7 @@
                         .then((response) => {
                             this.isLoading = true;
                             this.success = false;
-                            this.loadTasks();
+                            this.loadTasks(this.category_id);
                             this.message = 'Задача удаленна';
                             this.success = true;
                         })
@@ -236,7 +236,7 @@
                 this.updateTask(this.selectedTask)
                     .then((response) => {
                         this.isLoading = true;
-                        this.loadTasks();
+                        this.loadTasks(this.category_id);
                         this.hideModal();
                         this.selectedTask = {};
                         this.message = 'Задача изменена';
@@ -250,7 +250,7 @@
             completeTask: function(id) {
                 this.toggleTask(id)
                     .then((response) => {
-                        this.loadTasks();
+                        this.loadTasks(this.category_id);
                         this.success = false;
                     })
                     .catch(error => {

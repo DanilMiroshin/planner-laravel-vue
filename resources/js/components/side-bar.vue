@@ -47,16 +47,21 @@
                     </svg>
                 </button>
             </form>
-
             <div class="flex flex-col">
-                <div v-on:click="sendCategory()" class="cursor-pointer m-1 hover:bg-dark-slate-gray bg-hookers-green py-1 px-4 text-white pb-2">
-                    <router-link  to='/'>
+                <router-link
+                    to='/'
+                    v-on:click.native="sendCategory()"
+                    v-bind:class="{ 'bg-hookers-green': currentCategoryId == null }"
+                    class="cursor-pointer m-1 hover:bg-dark-slate-gray py-1 px-4 text-white pb-2">
                         Все задачи
-                    </router-link>
-                </div>
+                </router-link>
 
                 <!-- Categories -->
-                <div v-for='category in categories' v-on:click="sendCategory(category)" class="cursor-pointer m-1 hover:bg-dark-slate-gray py-1 px-4 text-white pb-2 flex justify-between items-center">
+                <div
+                    v-for='category in categories'
+                    v-on:click="sendCategory(category)"
+                    v-bind:class="{ 'bg-hookers-green': currentCategoryId == category.id }"
+                    class="cursor-pointer m-1 hover:bg-dark-slate-gray py-1 px-4 text-white pb-2 flex justify-between items-center">
                     <span>
                         {{ category.name }}
                     </span>
@@ -77,7 +82,7 @@
     </div>
 </template>
 <script>
-    import { mapGetters, mapActions } from 'vuex'
+    import { mapActions } from 'vuex'
 
     export default {
         props: ['user'],
@@ -88,6 +93,7 @@
                 formShown: false,
                 category: {},
                 errors: {},
+                currentCategoryId: null,
             }
         },
 
@@ -136,22 +142,9 @@
             },
 
             sendCategory: function (category = '') {
+                this.currentCategoryId = category.id;
                 this.$emit('clicked', category);
             }
-/*            editTask: function() {
-                this.updateTask(this.selectedTask)
-                    .then((response) => {
-                        this.isLoading = true;
-                        this.loadTasks();
-                        this.hideModal();
-                        this.selectedTask = {};
-                        this.message = 'Задача изменена';
-                        this.success = true;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            }*/
         }
     }
 </script>

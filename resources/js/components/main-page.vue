@@ -32,7 +32,7 @@
 
         data : function() {
             return {
-                category_id: null,
+                category_id: '',
                 category_name: 'Все задачи',
             }
         },

@@ -10,7 +10,8 @@ export default {
 
         async makeTask( {_}, task) {
             return await axios.post('api/v1/tasks/', {
-                'description': task.description
+                'description': task.description,
+                'category_id': task.category_id
             })
         },
 
