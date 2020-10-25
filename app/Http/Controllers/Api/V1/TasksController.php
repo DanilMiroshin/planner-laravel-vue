@@ -11,10 +11,10 @@ use Illuminate\Http\Response;
 
 class TasksController extends Controller
 {
-/*    public function __construct()
+    public function __construct()
     {
         $this->middleware('auth:api');
-    }*/
+    }
     /**
      * Display a listing of the tasks.
      * If category_id equal null return all tasks,
