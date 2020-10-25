@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Task;
+use App\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Task as TaskResource;
 use App\Http\Requests\TaskRequest;
@@ -15,40 +16,37 @@ class TasksController extends Controller
         $this->middleware('auth:api');
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of the tasks.
+     * If category_id equal null return all tasks,
+     * else return tasks for category
      *
      * @return App\Http\Resources\Task
      */
     public function index()
     {
-        return TaskResource::collection(request()->user()->tasks);
+        $user = request()->user();
+        return TaskResource::collection(
+            request()->category_id == null
+            ? $user->tasks
+            : $user->tasks->where('category_id', request()->category_id)
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  App\Http\Requests\TaskRequest $request
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Resources\Task $task
      */
     public function store(TaskRequest $request)
     {
         $task = Task::create([
             'user_id'       => request()->user()->id,
             'description'   => $request->description,
+            'category_id'   => request()->category_id,
         ]);
 
-        return TaskResource::make($task);       
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return Task::findOrFail($id);
+        return TaskResource::make($task);
     }
 
     /**
@@ -77,7 +75,7 @@ class TasksController extends Controller
         if ($task->user_id == request()->user()->id) {
             $task->delete();
         }
-        
+
         return response()->json(null);
     }
 
@@ -93,7 +91,7 @@ class TasksController extends Controller
             $task->completed = !$task->completed;
             $task->update();
         }
-        
+
         return TaskResource::make($task);
     }
 }

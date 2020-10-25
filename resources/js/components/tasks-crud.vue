@@ -1,9 +1,7 @@
 <template>
     <div class ='h-full flex-1 flex-col flex bg-white w-full overflow-hidden'>
         <div class="px-6 py-4 flex-1 overflow-y-scroll">
-
             <loader v-show="isLoading" object="#52796f" color1="#ffffff" color2="#fa0000" size="3" speed="1" bg="#000000" objectbg="#ffffff" opacity="95" name="spinning"></loader>
-
             <!-- Successs message -->
             <div v-show="success" class="bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8" role="alert">
                 <strong class="font-bold">Успешно!</strong>
@@ -25,8 +23,18 @@
                         <button v-on:click="completeTask(task.id)"
                         class="text-3xl text-grey border-r-2 border-hookers-green p-2 hover:bg-hookers-green">
                             <svg class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <title>Выполнить</title>
+                                <title>Выполнить-отменить</title>
+                                <!-- Undo icon -->
                                 <path
+                                v-bind:class="{ 'hidden': !task.completed }"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"
+                                />
+                                <!-- Complete icon -->
+                                <path
+                                    v-bind:class="{ 'hidden': task.completed }"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="2"
@@ -129,13 +137,12 @@
     import { mapGetters, mapActions } from 'vuex'
 
     export default {
-        computed: {
-            ...mapGetters ({
-                tasks: 'tasks/getTasks'
-            })
-        },
+
+        props: ['category_id'],
+
         data : function() {
             return {
+                tasks: [],
                 isLoading: true,
                 task: {},
                 selectedTask: {},
@@ -143,13 +150,22 @@
                 errors: {},
                 message: '',
                 overlay: true,
-                modalShown: false
+                modalShown: false,
             }
         },
+
+        watch: {
+            category_id: function (newCategoryId) {
+                this.isLoading = true;
+                this.loadTasks(newCategoryId);
+            }
+        },
+
         mounted() {
-            this.loadTasks();
+            this.loadTasks(this.category_id);
             this.overlay = false;
         },
+
         methods: {
             ...mapActions({
                 getTasks: 'tasks/loadTasks',
@@ -163,6 +179,7 @@
                 this.modalShown = false;
                 this.overlay = false;
             },
+
             showModal(task) {
                 this.selectedTask = task;
                 this.overlay = true;
@@ -173,18 +190,20 @@
                 this.success = false;
             },
 
-
-            loadTasks: function () {
-                this.getTasks()
-                    .then(() => {
+            loadTasks: function (category_id = '') {
+                this.getTasks(category_id)
+                    .then((response) => {
+                        this.tasks = response.data.data;
                         this.isLoading = false;
                     })
             },
+
             createTask: function () {
+                this.task.category_id = this.category_id;
                 this.makeTask(this.task)
                     .then(() => {
                         this.isLoading = true;
-                        this.loadTasks();
+                        this.loadTasks(this.category_id);
                         this.task = {};
                         this.message = 'Задача добавлена';
                         this.success = true;
@@ -196,13 +215,14 @@
                         }
                     });
             },
+
             deleteTask: function(id) {
                 if (confirm('Вы уверены?')) {
                     this.destroyTask(id)
                         .then((response) => {
                             this.isLoading = true;
                             this.success = false;
-                            this.loadTasks();
+                            this.loadTasks(this.category_id);
                             this.message = 'Задача удаленна';
                             this.success = true;
                         })
@@ -211,11 +231,12 @@
                         });
                 }
             },
+
             editTask: function() {
                 this.updateTask(this.selectedTask)
                     .then((response) => {
                         this.isLoading = true;
-                        this.loadTasks();
+                        this.loadTasks(this.category_id);
                         this.hideModal();
                         this.selectedTask = {};
                         this.message = 'Задача изменена';
@@ -225,10 +246,11 @@
                         console.log(error);
                     });
             },
+
             completeTask: function(id) {
                 this.toggleTask(id)
                     .then((response) => {
-                        this.loadTasks();
+                        this.loadTasks(this.category_id);
                         this.success = false;
                     })
                     .catch(error => {

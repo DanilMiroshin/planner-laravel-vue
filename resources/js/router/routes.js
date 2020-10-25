@@ -8,7 +8,7 @@ import Settings from '../components/settings.vue'
 import store from '../store/index.js'
 
 export default [
-    { 
+    {
         path: '/',
         component: MainPage,
         beforeEnter: (to, from, next) => {
@@ -31,7 +31,7 @@ export default [
             },
         ]
     },
-    { 
+    {
         path: '/login',
         name: 'login',
         component: Login,
@@ -43,7 +43,7 @@ export default [
             } else next()
         },
     },
-    { 
+    {
         path: '/registration',
         name: 'registration',
         component: Register,
@@ -53,7 +53,7 @@ export default [
                     name: 'main-page'
                 })
             } else next()
-        }        
+        }
     },
     {
         path: "/page-not-found",

@@ -13,7 +13,7 @@
                         </svg>
                     </span>
                 </div>
-
+                <router-link to='/' class='leading-tight text-gray-700 hover:text-charcoal'>Назад к задачам</router-link>
                 <!-- Change name block -->
                 <form @submit.prevent="updateName" class="flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2">
                     <div class="w-full px-3 mb-6 md:mb-0">
@@ -21,26 +21,26 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-name">
                             Имя
                         </label>
-                        
+
                         <input v-bind:class="{ 'border-gray-200': !errors.name, 'border-red': errors && errors.name }" class="appearance-none block w-full bg-white text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none" id="grid-name" type="text" v-model='name'>
                         <p v-if="errors && errors.name" class="text-red text-xs italic">{{ errors.name[0] }}</p>
 
-                        <input  type="submit" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded"> 
+                        <input  type="submit" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded">
                     </div>
                 </form>
 
                 <!-- Change mail block -->
                 <form @submit.prevent="updateEmail" class="flex flex-wrap -mx-3 mb-6 bg-gray-100 p-2">
-                    
+
                     <div class="w-full px-3">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-email">
                             Почта
                         </label>
-        
+
                         <input v-bind:class="{ 'border-gray-200': !errors.email, 'border-red': errors && errors.email }" v-model="email" class="appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:border-gray-500" id="grid-email" type="email">
                         <p v-if="errors && errors.email" class="text-red text-xs italic">{{ errors.email[0] }}</p>
 
-                        <input type="submit" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded"> 
+                        <input type="submit" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded">
                     </div>
                 </form>
                 <!-- Change password block -->
@@ -50,7 +50,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-old-password">
                             Старый пароль
                         </label>
-                        
+
                         <input v-bind:class="{ 'border-gray-200': !errors.old_password, 'border-red': errors && errors.old_password }" v-model='old_password' name="old_password" class="appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:border-gray-500" id="grid-old-password" type="password">
                         <p v-if="errors && errors.old_password" class="text-red text-xs italic">{{ errors.old_password[0] }}</p>
 
@@ -58,7 +58,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                             Новый пароль
                         </label>
-                        
+
                         <input v-bind:class="{ 'border-gray-200': !errors.password, 'border-red': errors && errors.password }" v-model='password' name="password" class="appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password">
                         <p v-if="errors && errors.password" class="text-red text-xs italic">{{ errors.password[0] }}</p>
 
@@ -66,7 +66,7 @@
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password-confirmation">
                             Повторите пароль
                         </label>
-                        
+
                         <input v-model='password_confirmation' name="password_confirmation" class="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password-confirmation" type="password">
 
                         <input type="submit" value="Изменить" class="bg-hookers-green cursor-pointer text-white text-lg hover:bg-dark-slate-gray p-2 mt-2 rounded">
@@ -74,7 +74,7 @@
                 </form>
             </div>
         </div>
-    </div> 
+    </div>
 </template>
 <script>
     export default {
@@ -86,11 +86,11 @@
                 email: this.user.email,
                 old_password: '',
                 password: '',
-                password_confirmation: '',                  
+                password_confirmation: '',
                 errors: {},
                 success: false,
                 isLoading: false,
-            } 
+            }
         },
 
         methods: {
