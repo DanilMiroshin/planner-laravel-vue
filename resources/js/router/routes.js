@@ -1,11 +1,11 @@
-import MainPage from '../components/main-page.vue'
-import Login from '../components/login.vue'
-import Register from '../components/registration.vue'
-import PageNotFound from '../components/page-not-found.vue'
-import TasksCrud from '../components/tasks-crud.vue'
-import Settings from '../components/settings.vue'
+import MainPage from '../components/main/layout/LayoutPage.vue'
+import Login from '../components/auth/AuthLogin.vue'
+import Register from '../components/auth/AuthRegistration.vue'
+import PageNotFound from '../components/PageNotFound.vue'
+import TasksCrud from '../components/main/tasks/TasksPage.vue'
+import Settings from '../components/main/settings/SettingsPage.vue'
 
-import store from '../store/index.js'
+import { store } from '../store'
 
 export default [
     {
@@ -56,8 +56,11 @@ export default [
         }
     },
     {
-        path: "/page-not-found",
-        alias: '*',
-        component: PageNotFound
+        path: "/:catchAll(.*)",
+        name: "NotFound",
+        component: PageNotFound,
+        meta: {
+            requiresAuth: false
+        }
     }
 ];

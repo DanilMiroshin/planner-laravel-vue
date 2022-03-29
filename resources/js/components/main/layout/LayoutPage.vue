@@ -16,8 +16,8 @@
 <script>
     import { mapGetters, mapActions } from 'vuex'
 
-    import TopBar from './top-bar.vue'
-    import SideBar from './side-bar.vue'
+    import TopBar from './LayoutTopBar.vue'
+    import SideBar from './LayoutSideBar.vue'
 
     export default {
         components: {
