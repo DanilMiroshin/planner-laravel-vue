@@ -11,6 +11,7 @@ class RegisterController extends Controller
 {
     public function __invoke(RegisterRequest $request)
     {
+        dd('works');
         return response()->json(
             User::create([
                 'name'          => $request->name,

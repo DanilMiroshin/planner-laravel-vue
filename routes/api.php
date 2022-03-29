@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
-    Route::group(['prefix' => 'update', 'namespace' => 'Settings', 'as' => 'update.', 'middleware' => 'auth:api'], function (){
+    Route::group(['prefix' => 'update', 'namespace' => 'Settings', 'as' => 'update.'], function (){
         Route::patch('password', 'UpdatePassword')->name('password');
         Route::patch('email', 'UpdateEmail')->name('email');
         Route::patch('name', 'UpdateName')->name('name');
@@ -23,7 +23,6 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
         Route::post('login', 'LogInController')->name('login');
         Route::post('logout', 'LogOutController')->name('logout');
-        Route::get('me', 'MeController')->name('me');
         Route::post('register', 'RegisterController')->name('register');
     });
     Route::patch('tasks/toggle/{task}', 'TasksController@toggle')->name('tasks.toggle');
