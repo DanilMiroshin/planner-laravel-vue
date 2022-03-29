@@ -9,6 +9,8 @@ class LogOutController extends Controller
 {
     public function __invoke()
     {
-        auth()->logout();
+        auth('sanctum')->user()->currentAccessToken()->delete();
+
+        return response()->noContent();
     }
 }

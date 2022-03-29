@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Task;
-use App\User;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Task as TaskResource;
 use App\Http\Requests\TaskRequest;
-use Illuminate\Http\Response;
+use App\Http\Resources\Task as TaskResource;
+use App\Models\Task;
 
 class TasksController extends Controller
 {

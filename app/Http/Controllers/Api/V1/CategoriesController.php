@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\Category as CategoryResource;
-use App\Http\Resources\Task as TaskResource;
-use App\User;
-Use App\Http\Requests\CategoryRequest;
+use App\Models\Category;
 
 class CategoriesController extends Controller
 {
