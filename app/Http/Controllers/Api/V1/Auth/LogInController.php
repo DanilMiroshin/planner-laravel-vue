@@ -10,7 +10,7 @@ use App\Models\User;
 
 class LogInController extends Controller
 {
-    public function __invoke(LoginRequest $request)
+    public function __invoke(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
         $user = User::query()
             ->where('email', $request->email)

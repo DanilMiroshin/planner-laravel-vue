@@ -1,33 +1,38 @@
-import MainPage from '../components/main/layout/LayoutPage.vue'
-import Login from '../components/auth/AuthLogin.vue'
-import Register from '../components/auth/AuthRegistration.vue'
-import PageNotFound from '../components/PageNotFound.vue'
-import TasksCrud from '../components/main/tasks/TasksPage.vue'
-import Settings from '../components/main/settings/SettingsPage.vue'
+import Page from '../components/main/layout/LayoutPage'
+import Login from '../components/auth/AuthLogin'
+import Register from '../components/auth/AuthRegistration'
+import PageNotFound from '../components/PageNotFound'
+import TasksPage from '../components/main/tasks/TasksPage'
+import SettingsPage from '../components/main/settings/SettingsPage'
 
-import { store } from '../store'
+import store from '../store'
+
+
+function isAuthenticated(to, from, next) {
+    const isAuthRoute = ['login', 'registration'].includes(to.name);
+
+    if (store.getters.authenticated) {
+        return isAuthRoute ? next({ name: 'tasks' }) : next();
+    }
+
+    return isAuthRoute ? next() : next({ name: 'login' });
+}
 
 export default [
     {
         path: '/',
-        component: MainPage,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters['auth/authenticated']) {
-                return next ({
-                    name: 'login'
-                })
-            }  else next()
-        },
+        component: Page,
+        beforeEnter: [isAuthenticated],
         children: [
             {
-                name: 'main-page',
+                name: 'tasks',
                 path: '',
-                component: TasksCrud
+                component: TasksPage
             },
             {
                 path: 'settings',
                 name: 'settings',
-                component: Settings
+                component: SettingsPage
             },
         ]
     },
@@ -35,29 +40,17 @@ export default [
         path: '/login',
         name: 'login',
         component: Login,
-        beforeEnter: (to, from, next) => {
-            if (store.getters['auth/authenticated']) {
-                return next ({
-                    name: 'main-page'
-                })
-            } else next()
-        },
+        beforeEnter: [isAuthenticated],
     },
     {
         path: '/registration',
         name: 'registration',
         component: Register,
-        beforeEnter: (to, from, next) => {
-            if (store.getters['auth/authenticated']) {
-                return next ({
-                    name: 'main-page'
-                })
-            } else next()
-        }
+        beforeEnter: [isAuthenticated],
     },
     {
-        path: "/:catchAll(.*)",
-        name: "NotFound",
+        path: '/:catchAll(.*)',
+        name: 'notFound',
         component: PageNotFound,
         meta: {
             requiresAuth: false

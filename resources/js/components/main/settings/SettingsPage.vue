@@ -1,7 +1,6 @@
 <template>
    <div class ='h-full flex-1 flex-col flex bg-white w-full overflow-hidden'>
         <div class="w-full px-6 py-4 flex-1 overflow-y-scroll">
-            <loader v-show="isLoading" object="#52796f" color1="#ffffff" color2="#fa0000" size="3" speed="1" bg="#000000" objectbg="#ffffff" opacity="95" name="spinning"></loader>
             <div class="w-full">
                 <div v-show="success" class="bg-teal-100 border border-teal-500 px-4 py-3 rounded relative mb-8" role="alert">
                     <strong class="font-bold">Успешно!</strong>

@@ -1,4 +1,5 @@
 <template>
+
     <div class="h-screen overflow-hidden flex items-center justify-center "  style="background: #edf2f7;">
         <div class="font-sans antialiased h-screen flex w-full">
             <!-- Sidebar -->
@@ -6,15 +7,16 @@
 
             <!-- Main content -->
             <div class="flex-1 flex flex-col bg-white">
-                <TopBar :category_name = "category_name"></TopBar>
+                <TopBar :category_name = "categoryName"></TopBar>
                  <!-- Tasks-crud or settings -->
-                <router-view :user = "user" :category_id = "category_id"></router-view>
+                <router-view :user = "user" :category-id = "categoryId"></router-view>
             </div>
         </div>
     </div>
+
 </template>
+
 <script>
-    import { mapGetters, mapActions } from 'vuex'
 
     import TopBar from './LayoutTopBar.vue'
     import SideBar from './LayoutSideBar.vue'
@@ -25,25 +27,24 @@
         },
 
         computed: {
-            ...mapGetters ({
-                user: 'auth/user'
-            })
+            user() {
+                return this.$store.getters.user;
+            }
         },
 
-        data : function() {
+        data() {
             return {
-                category_id: '',
-                category_name: 'Все задачи',
+                categoryId: null,
+                categoryName: 'Все задачи',
             }
         },
 
         methods: {
             getCategory(value) {
-                this.category_id = value.id;
-                this.category_name = value.name == null
-                ? 'Все задачи'
-                : value.name;
+                this.categoryId = value.id;
+                this.categoryName = value.name ? 'Все задачи' : value.name;
             }
         }
     }
+
 </script>

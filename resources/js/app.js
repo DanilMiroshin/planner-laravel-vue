@@ -1,15 +1,11 @@
 import { createApp } from 'vue'
-import { store } from './store'
+import store from './store'
 import router from './router';
+import interceptorsSetup from './interceptors'
 
-require('./store/subscriber')
 require('./bootstrap');
+interceptorsSetup()
 
 createApp({}).use(router).use(store).mount('#app')
-
-
-/*store.dispatch('auth/attempt', localStorage.getItem('token')).then(() => {
-    const app = new Vue();
-})*/
 
 

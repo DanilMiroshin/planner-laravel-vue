@@ -1,9 +1,9 @@
 import { createStore } from 'vuex'
-import * as auth from './modules/auth'
-import * as tasks from './modules/tasks'
-import * as categories from './modules/categories'
+import auth from './modules/auth'
+import tasks from './modules/tasks'
+import categories from './modules/categories'
 
-export const store = createStore({
+export default createStore({
     modules: {
         auth,
         tasks,

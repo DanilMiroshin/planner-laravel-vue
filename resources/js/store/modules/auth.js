@@ -1,75 +1,52 @@
 import axios from 'axios'
 
 export default {
-    namespaced: true,
-
-    state: {
+    state:() => ({
         token: null,
         user: null,
-    },
+    }),
 
     getters: {
-        authenticated (state) {
-            return state.token && state.user
-        },
-
-        user (state) {
-            return state.user
-        }
+        user: (state) => state.user,
+        authenticated: (state) => state.token && state.user,
     },
 
     mutations: {
-        set_token (state, token) {
-            state.token = token
-        },
-
-        set_user (state, data) {
-            state.user = data
-        }
+        setUser: (state, user) => state.user = user,
+        setToken: (state, token) => state.token = token,
     },
 
     actions: {
-        async login ( { dispatch }, credentials) {
-            let response = await axios.post('api/v1/auth/login', credentials)
-
-            return dispatch('attempt', response.data.token);
+        registration({ commit }, user) {
+            return axios.post('api/v1/auth/register', user).then((response) => {
+                commit('setUser', response.data)
+            });
         },
 
-        async attempt ( { commit, state }, token) {
+        async login({ dispatch }, user) {
+            return await axios.post('api/v1/auth/login', user).then((response) => {
+                dispatch('processLogin', response.data.token);
+            });
+        },
 
-            if (token) {
-                commit('set_token', token)
+        async processLogin({ commit, getters }, token) {
+            commit('setToken', token)
 
-                localStorage.setItem('token', token)
-            }
-
-            if (!state.token) {
-                return
-            }
-
-            try {
-                let response = await axios.get('api/v1/auth/me', {
+            if (!getters.user) {
+                return await axios.get('api/v1/auth/me', {
                     headers : {
                         'Authorization': 'Bearer' + token
                     }
-                })
-
-                commit('set_user', response.data)
-            } catch(e) {
-                localStorage.removeItem('token')
-
-                commit('set_token', null)
-                commit('set_user', null)
+                }).then((response) => {
+                    commit('setUser', response.data)
+                });
             }
         },
 
-        signOut ( { commit }) {
-            return axios.post('api/v1/auth/logout')
-            .then(() => {
-                localStorage.removeItem('token')
-
-                commit('set_token', null)
-                commit('set_user', null)
+        signOut({ commit }) {
+            return axios.post('api/v1/auth/logout').then(() => {
+                commit('setToken', null)
+                commit('setUser', null)
             })
         }
     }

@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public function __invoke(RegisterRequest $request)
+    public function __invoke(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
-        dd('works');
         return response()->json(
             User::create([
                 'name'          => $request->name,
                 'email'         => $request->email,
                 'password'      => Hash::make($request->password),
-                ])
+            ])
         );
     }
 }

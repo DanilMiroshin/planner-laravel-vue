@@ -1,8 +1,6 @@
 import axios from 'axios'
 
 export default {
-    namespaced: true,
-
     actions: {
 
         async loadCategories ( {_} ) {

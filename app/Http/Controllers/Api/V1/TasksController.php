@@ -20,7 +20,7 @@ class TasksController extends Controller
         $user = request()->user();
 
         return TaskResource::collection(
-            request()->category_id == null
+            request()->category_id === null
             ? $user->tasks
             : $user->tasks->where('category_id', request()->category_id)
         );

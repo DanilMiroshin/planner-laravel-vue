@@ -1,4 +1,5 @@
 <template>
+
     <div class="h-12 border-b grid grid-cols-2 gap-4 justify-items-stretch">
         <div class='pl-6 flex justify-self-start items-center'>
             <h3 class="text-grey-darkest font-extrabold">
@@ -17,8 +18,11 @@
             </a>
         </div>
     </div>
+
 </template>
+
 <script>
+
     import { mapActions } from 'vuex'
 
     export default {
@@ -38,4 +42,5 @@
             }
         }
     }
+
 </script>
