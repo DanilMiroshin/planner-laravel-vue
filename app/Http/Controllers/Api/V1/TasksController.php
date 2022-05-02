@@ -2,31 +2,25 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Task;
-use App\User;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Task as TaskResource;
 use App\Http\Requests\TaskRequest;
-use Illuminate\Http\Response;
+use App\Http\Resources\Task as TaskResource;
+use App\Models\Task;
 
 class TasksController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
     /**
      * Display a listing of the tasks.
      * If category_id equal null return all tasks,
      * else return tasks for category
      *
-     * @return App\Http\Resources\Task
      */
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $user = request()->user();
+
         return TaskResource::collection(
-            request()->category_id == null
+            request()->category_id === null
             ? $user->tasks
             : $user->tasks->where('category_id', request()->category_id)
         );
@@ -35,10 +29,10 @@ class TasksController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\TaskRequest $request
-     * @return App\Http\Resources\Task $task
+     * @param TaskRequest $request
+     * @return TaskResource $task
      */
-    public function store(TaskRequest $request)
+    public function store(TaskRequest $request): TaskResource
     {
         $task = Task::create([
             'user_id'       => request()->user()->id,

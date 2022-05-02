@@ -2,21 +2,18 @@
 Planner - app that helps you organize your tasks
 
 ## Included
-* [Laravel 7](https://laravel.com/docs/7.x)
+* [Laravel 9](https://laravel.com/docs/9.x)
 * [Vue 2](https://vuejs.org)
 * [Vue Router](http://router.vuejs.org)
 * [Vuex](http://vuex.vuejs.org)
 * [Axios](https://github.com/mzabriskie/axios)
-* [Authentication with JWT Token](https://github.com/tymondesigns/jwt-auth)
+* [Authentication with Laravel Sanctum](https://laravel.com/docs/9.x/sanctum)
 * [Tailwind CSS](https://tailwindcss.com)
 
 ## Installation:
-* Clone the repo
-* Copy `.env.example` to `.env`
-* Configure `.env`
+* Copy `.env.example` to `.env` and configure it
 * Run `composer install`
 * Run `php artisan key:generate`
-* Run `php artisan jwt:secret`
 * Run `php artisan migrate`
 * Run `npm install`
 

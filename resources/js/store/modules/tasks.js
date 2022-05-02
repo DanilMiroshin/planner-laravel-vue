@@ -1,11 +1,10 @@
 import axios from 'axios'
 
 export default {
-    namespaced: true,
-
     actions: {
-        async loadTasks ( {_}, category_id) {
-            return await axios.get('api/v1/tasks?category_id=' + category_id)
+        async loadTasks (categoryId) {
+            //return await axios.get('api/v1/tasks?category_id=' + categoryId)
+            return await axios.get('api/v1/tasks');
         },
 
         async makeTask( {_}, task) {

@@ -1,3 +1,4 @@
+/*
 import axios from 'axios'
 import store from '../store'
 
@@ -6,3 +7,4 @@ store.subscribeAction((action, state) => {
         ? axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('token')
         : 0;
 })
+*/
